@@ -30,11 +30,11 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Fecha:</label>
-                                    <div class="input-group date" id="arrival">
+                                    <div class="input-group date" id="fecha">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="llegada" name="llegada">
+                                        <input type="text" class="form-control pull-right" id="fecha_venta" name="fecha_venta">
                                     </div>
                                 </div>
                             </div>

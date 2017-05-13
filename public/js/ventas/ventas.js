@@ -3,6 +3,15 @@ $(document).ready(function(){
     $("#btn_add").click(function(){
         agregar();
     });
+
+    $('#fecha').datepicker({
+        startDate: new Date(),
+        format: "dd/mm/yyyy",
+        language: "es",
+        orientation: "bottom auto",
+        autoclose:"true",
+        todayHighlight: true
+    });
 });
 
 $('#cantidad').change(ValidarCantidad_Stock);

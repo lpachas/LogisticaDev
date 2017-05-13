@@ -24,7 +24,7 @@
     <!-- JQVMap -->
     <link href="{{asset('vendors/jqvmap/dist/jqvmap.min.css')}}" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
-    <link href="{{asset('vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
+    <link href="{{asset('js/bootstrap-datepicker.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('build/css/propio.css') }}">
     <link rel="stylesheet" href="{{ asset('build/css/jquery.alertable.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
@@ -169,6 +169,8 @@
 <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/bootstrap-datepicker.es.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{asset('vendors/fastclick/lib/fastclick.js')}}"></script>
