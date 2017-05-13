@@ -282,3 +282,4 @@ function aceptar(id){
     $("#total_sale").val(total_final);
 }
 
+

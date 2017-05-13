@@ -33,6 +33,7 @@ class VentaController extends Controller
     }
 
     public function ByProducto($id){
+        /*$res = DB::select("call sp_GetProducto('.$id.')");*/
         $res = DB::table('t_producto as p')
                     ->join('t_marca as m','p.ID_Marca','=','m.ID_Marca')
                     ->join('t_modelo as mo','p.ID_Modelo','=','mo.ID_Modelo')
