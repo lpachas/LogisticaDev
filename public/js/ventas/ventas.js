@@ -251,6 +251,7 @@ function editar(id){
 }
 
 function aceptar(id){
+    /*Github */
     $('#editar_prod-'+id).show();
     $('#aceptar_prod-'+id).hide();
     $('#cant-'+id).attr('disabled', 'disabled');
