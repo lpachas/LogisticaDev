@@ -1,0 +1,39 @@
+#form-login .alert,#form-login .error{
+	background-color:#f31412;
+	text-align:center;
+	font-size:12px;
+	color:#FFF;
+	padding:5px; 
+}
+
+#salir .modal-body .alert-blue {
+    background: #2A3F54;
+    color: #fff;
+}
+
+#FormCreateTrabajador .exito, #FormCreateCategoria .exito,#FormCreateMarca .exito, #FormEditCategoria .exito,#FormEditMarca .exito,#formulario_edit_trabajador .exito,#FormCreateUsuario .exito, #formulario_edit_usuario .exito, #FormCreateModelo .exito, #FormEditModelo .exito{
+	background-color:rgba(38,185,154,.88);
+	text-align:center;
+	font-size:12px;
+	color:#FFF;
+	padding:5px;
+}
+
+#FormCreateTrabajador .error, #FormCreateCategoria .error,#FormCreateMarca .error, #FormEditCategoria .error,#FormEditMarca .error,#formulario_edit_trabajador .error, #FormCreateUsuario .error, #formulario_edit_usuario .error, #FormCreateModelo .error, #FormEditModelo .error{
+	background-color:#f31412;
+	text-align:center;
+	font-size:12px;
+	color:#FFF;
+	padding:5px;
+}
+
+@media (min-width: 768px){
+   #reg_producto_mod .modal-dialog {
+   	width: 800px;
+   	margin: 30px auto;
+   }
+}
+
+.contenedor{
+	text-align: center;
+}
