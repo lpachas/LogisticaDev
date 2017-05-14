@@ -86,7 +86,7 @@
                                  <div class="panel panel-primary">
                                      <div class="panel-body">
                                          <div class="row">
-                                             <div class="col-md-4">
+                                             <div class="col-md-5">
                                                  <div class="form-group">
                                                      <label>Tipo de Documento:</label>
                                                      <select id="id_documento" name="id_documento" class="form-control selectpicker" data-live-search="true">
@@ -97,7 +97,7 @@
                                                      </select>
                                                  </div>
                                              </div>
-                                             <div class="col-md-4">
+                                             <div class="col-md-3">
                                                  <div class="form-group">
                                                      <label>Serie:</label>
                                                      <input type="text" id="serie" class="form-control" placeholder="Serie de Documento">
@@ -223,8 +223,7 @@
                             </div>
                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" id="guardar">
                                 <div class="form-group">
-
-                                    <button class="btn btn-primary" type="submit">Guardar</button>
+                                    <button class="btn btn-primary" type="button" id="btn_guardarventa">Guardar</button>
                                     <button class="btn btn-danger" type="reset">Cancelar</button>
                                 </div>
                             </div>
