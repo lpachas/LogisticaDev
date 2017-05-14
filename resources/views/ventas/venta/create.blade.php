@@ -44,8 +44,8 @@
                                                      <label>Tipo de Venta:</label>
                                                      <select id="id_tipo_venta" class="form-control selectpicker" data-live-search="true">
                                                          <option value="">--Seleccione Tipo Venta--</option>
-                                                         <option value="1">Contado</option>
-                                                         <option value="2">Crédito</option>
+                                                         <option value="1">CONTADO</option>
+                                                         <option value="2">CRÉDITO</option>
                                                      </select>
                                                  </div>
                                              </div>

@@ -3,17 +3,38 @@ $(document).ready(function(){
     $("#btn_add").click(function(){
         agregar();
     });
-
-    $('#fecha').datepicker({
-        startDate: new Date(),
-        format: "dd/mm/yyyy",
-        language: "es",
-        orientation: "bottom auto",
-        autoclose:"true",
-        todayHighlight: true
+    $('#id_tipo_venta').change(function(e) {
+        var id = $('#id_tipo_venta').val();
+        console.log(id);
+        FechaxTipo(id);
     });
 });
-
+function FechaxTipo(id){
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    if(id==1){
+        $('#fecha_venta').attr('disabled', 'disabled');
+        $('#fecha').datepicker({
+            startDate: today,
+            format: "dd/mm/yyyy",
+            language: "es",
+            orientation: "bottom auto",
+            autoclose:"true",
+            todayHighlight: true
+        });
+        $('#fecha').datepicker('setDate', today);
+    }else{
+        $('#fecha_venta').removeAttr('disabled');
+        $('#fecha').datepicker({
+            startDate: new Date(),
+            format: "dd/mm/yyyy",
+            language: "es",
+            orientation: "bottom auto",
+            autoclose:"true",
+            todayHighlight: true
+        });
+    }
+}
 $('#cantidad').change(ValidarCantidad_Stock);
 function ValidarCantidad_Stock(){
     var cant = $('#cantidad').val();
