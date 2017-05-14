@@ -16,7 +16,7 @@ function FechaxTipo(id){
         $('#fecha_venta').attr('disabled', 'disabled');
         $('#fecha').datepicker({
             startDate: today,
-            format: "dd/mm/yyyy",
+            format: "yyyy-mm-dd",
             language: "es",
             orientation: "bottom auto",
             autoclose:"true",
@@ -27,7 +27,7 @@ function FechaxTipo(id){
         $('#fecha_venta').removeAttr('disabled');
         $('#fecha').datepicker({
             startDate: new Date(),
-            format: "dd/mm/yyyy",
+            format: "yyyy-mm-dd",
             language: "es",
             orientation: "bottom auto",
             autoclose:"true",
@@ -304,3 +304,56 @@ function aceptar(id){
 }
 
 
+$('#btn_guardarventa').on('click',function(e){
+    e.preventDefault();
+    var idclient = $('#id_cliente').val();
+    var idusuario = $('#id_usuario').val();
+    var datosArticulo = document.getElementById('id_documento').value.split('_');
+    var idtipodoc = datosArticulo[0];
+    var serie = $('#serie').val();
+    var numero = $('#numero').val();
+    var idforma = $('#id_forma_pago').val();
+    var idtipoventa = $('#id_tipo_venta').val();
+    ObtenerFechaActual();
+    var fecha_actual = ObtenerFechaActual();
+    if(idtipoventa==1){
+        var fechacredito = "";
+        var nrodias = "";
+    }else if(idtipoventa==2){
+        var fechacredito = $('#fecha_venta').val();
+        var nrodias = ObtenerNroDias(fecha_actual,fechacredito);
+    }
+
+    var datos = {ID_Cliente:idclient,ID_Usuario:idusuario,ID_Tipo_Documento:idtipodoc,
+    Serie:serie,Numero:numero,FechaVenta_Actual:fecha_actual,ID_Forma_Pago:idforma,
+    FechaVenta_Credito:fechacredito,Nro_Dias:nrodias};
+
+    console.log(datos);
+});
+
+function ObtenerFechaActual(){
+    var hoy = new Date();
+    var dd = hoy.getDate();
+    var mm = hoy.getMonth()+1; //hoy es 0!
+    var yyyy = hoy.getFullYear();
+
+    if(dd<10) {
+        dd='0'+dd
+    }
+
+    if(mm<10) {
+        mm='0'+mm
+    }
+
+    hoy = yyyy+'-'+mm+'-'+dd;
+    return hoy;
+}
+
+function ObtenerNroDias(fecha_inicio,fecha_fin){
+    var fechaInicio = new Date(fecha_inicio).getTime();
+    var fechaFin    = new Date(fecha_fin).getTime();
+
+    var diff = fechaFin - fechaInicio;
+    var dif = diff/(1000*60*60*24);
+    return dif;
+}
