@@ -89,6 +89,8 @@
                                          <div class="row">
                                              <div class="col-md-5">
                                                  <div class="form-group">
+                                                     <input type="hidden" id="id-0" value="20">
+                                                     <input type="hidden" id="id-1" value="30">
                                                      <label>Tipo de Documento:</label>
                                                      <select id="id_documento" name="id_documento" class="form-control selectpicker" data-live-search="true">
                                                          <option value="">--Seleccione un documento--</option>

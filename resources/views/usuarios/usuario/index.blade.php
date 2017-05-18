@@ -111,6 +111,7 @@
             });
             id_tipo = id_tipo.toString();
             var cadena = {'ID_Trabajador':id_trabj,'ID_Tipo_Usuario':id_tipo,'name':usuario,'email':email,'password':password,'Descripcion':desc};
+            console.log(cadena);
             var route = "{{route('usuarios.usuario.store')}}";
             $.ajax({
                 url: route,
