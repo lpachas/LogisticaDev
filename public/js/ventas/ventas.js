@@ -101,41 +101,7 @@ function CerrarModal(){
     }, 3500);
 }
 
-$('#btnregistrar_cliente').on('click',function(e){
-    e.preventDefault();
-    var nom = $('#nombre').val();
-    var dir = $('#direccion').val();
-    var r_d = $('#ruc_dni').val();
-    var tel = $('#telefono').val();
-    var zona = $('#zona').val();
-    var token = $("input[name=_token]").val();
 
-    var data = {Nombre:nom,Direccion:dir,RUC_DNI:r_d,Telefono:tel,Zona:zona};
-    var route = "{{route('ventas.cliente.store')}}";
-
-    $.ajax({
-        url: route,
-        headers: {'X-CSRF-TOKEN':token},
-        type:'post' ,
-        datatype: 'json',
-        data: data,
-        success:function(data)
-        {
-            if(data.success == 'true')
-            {
-                $('#mensaje_cliente').addClass('exito').html("El Cliente ha sido registrado").show(300).delay(3000).hide(300);
-                CerrarModal();
-            }else{
-                $('#mensaje_cliente').addClass('error').html('Error al registrar al cliente').show(300).delay(3000).hide(300);
-                $('#nombre').focus();
-            }
-        },
-        error:function(){
-            $('#mensaje_cliente').addClass('error').html('Ha ocurrido un error.Por favor, comuníquese con el Administrador del Sistema.').show(300).delay(3000).hide(300);
-            $('#nombre').focus();
-        }
-    });
-});
 $('#id_producto').change(function(e) {
     e.preventDefault();
     var id = $('#id_producto').val();
@@ -309,60 +275,7 @@ function aceptar(id){
 }
 
 
-$('#btn_guardarventa').on('click',function(e){
-    e.preventDefault();
-    var idclient = $('#id_cliente').val();
-    var idusuario = $('#id_usuario').val();
-    var datosArticulo = document.getElementById('id_documento').value.split('_');
-    var idtipodoc = datosArticulo[0];
-    var serie = $('#serie').val();
-    var numero = $('#numero').val();
-    var idforma = $('#id_forma_pago').val();
-    var idtipoventa = $('#id_tipo_venta').val();
-    var igv = $('#igv').val();
-    var total=$('#total').val();
-    ObtenerFechaActual();
-    var fecha_actual = ObtenerFechaActual();
-    if(idtipoventa==1){
-        var fechacredito = "";
-        var nrodias = 0;
-    }else if(idtipoventa==2){
-        var fechacredito = $('#fecha_venta').val();
-        var nrodias = ObtenerNroDias(fecha_actual,fechacredito);
-    }
 
-
-    /*var arreglo = [];
-    var dato1 = $('#id0').val();
-    var dato2 = $('#id1').val();
-
-    var detalles = [{"id_producto":dato1, "stock":"100"},{"id_producto":dato2, "stock":"100"}];*/
-
-    var arrayDetalles = new Array();
-    for (var x = 0; x <clicks; x++){
-        var detalles = new Object();
-        detalles.ID_Producto = $("#idprod-"+x).val();
-        detalles.Cantidad = $("#cant-"+x).val() ;
-        detalles.Precio = $("#pventa-"+x).val();
-        detalles.Descuento = $("#desc-"+x).val();
-        detalles.Subtotal = $("#subtotal-"+x).val() ;
-
-        arrayDetalles.push(detalles);
-    }
-    /*var res = JSON.stringify(arrayProperties);
-    console.log(res);*/
-
-
-    var datos = {"ID_Cliente":idclient,"ID_Usuario":idusuario,"ID_Tipo_Documento":idtipodoc,
-        "Serie":serie,"Numero":numero,"FechaVenta_Actual":fecha_actual,"ID_Forma_Pago":idforma,
-        "FechaVenta_Credito":fechacredito,"Nro_Dias":nrodias,
-        "IGV":igv,"Total":total,"Detalles":arrayDetalles};
-    console.log(datos);
-
-
-
-
-});
 
 var clicks = 0;
 function AumentarClicks(){

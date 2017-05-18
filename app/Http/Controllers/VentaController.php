@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use SISTEMA_LOGISTICA\Http\Requests;
 use SISTEMA_LOGISTICA\Producto;
 use SISTEMA_LOGISTICA\Venta;
-use SISTEMA_LOGISTICA\Marca;
+use SISTEMA_LOGISTICA\Detalle_Venta;
 use Illuminate\Support\Facades\Redirect;
 use SISTEMA_LOGISTICA\Http\Requests\VentaFormRequest;
 use DB;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class VentaController extends Controller
 {
@@ -54,6 +56,26 @@ class VentaController extends Controller
     }
 
     public function store(VentaFormRequest $request){
+        $venta = new Venta;
+        $venta->ID_Cliente = $request->get('ID_Cliente');
+        $venta->ID_Usuario = $request->get('ID_Usuario');
+        $venta->ID_Tipo_Documento = $request->get('ID_Tipo_Documento');
+        $venta->Serie = $request->get('Serie');
+        $venta->Numero = $request->get('Numero');
+        /*MANEJO DE FECHA VENTA ACTUAL */
+        $venta->ID_Forma_Pago=$request->get('ID_Forma_Pago');
+        $venta->Estado='Venta';
+        /*MANEJO DE FECHA VENTA CREDITO */
+        $venta->Nro_Dias=$request->get('Nro_Dias');
+        $venta->IGV = $request->get('IGV');
+        $venta->Total = $request->get('Total');
+        $venta->save();
+
+        if ($venta){
+            return response()->json(['success'=>'true']);
+        }else{
+            return response()->json(['success'=>'false']);
+        }
 
     }
 

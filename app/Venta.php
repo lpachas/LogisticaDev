@@ -19,7 +19,9 @@ class Venta extends Model
         'ID_Forma_Pago',
         'Estado',
         'FechaVenta_Credito',
-        'Nro_Dias'
+        'Nro_Dias',
+        'IGV',
+        'Total'
     ];
 
 }

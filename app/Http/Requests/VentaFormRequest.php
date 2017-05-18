@@ -30,16 +30,10 @@ class VentaFormRequest extends Request
             'Serie'=>'required|max:3',
             'Numero'=>'required|max:7',
             'ID_Forma_Pago'=>'required|max:11',
-            'Estado'=>'required|max:10',
-            'FechaVenta_Credito'=>'required',
+
             'Nro_Dias'=>'required',
             'IGV'=>'required',
             'Total'=>'required',
-            'ID_Producto'=>'required',
-            'Cantidad'=>'required',
-            'Precio'=>'required',
-            'Descuento'=>'required',
-            'Subtotal'=>'required',
         ];
     }
 }
