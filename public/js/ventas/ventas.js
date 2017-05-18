@@ -2,10 +2,10 @@ $(document).ready(function(){
     CheckIGV();
     $("#btn_add").click(function(){
         agregar();
+        AumentarClicks();
     });
     $('#id_tipo_venta').change(function(e) {
         var id = $('#id_tipo_venta').val();
-        console.log(id);
         FechaxTipo(id);
     });
 });
@@ -150,7 +150,7 @@ $('#id_producto').change(function(e) {
         success:function(data)
         {
             if (data.success=='true'){
-                console.log(data.res[0].ID_Producto);
+                /*console.log(data.res[0].ID_Producto);*/
                 $('#stock').val(data.res[0].Stock);
                 $('#pventa').val(data.res[0].PU_Ferreteria);
                 $('#nomprod').val(data.res[0].Producto);
@@ -192,10 +192,11 @@ function agregar(){
         /*console.log(total);*/
         detotal = parseFloat(total).toFixed(2);
         totalIGV = detotal - detotal * parseFloat($('#igv').val());
-        var fila = '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" id="stock-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button><button type="button" id="aceptar_prod-'+cont+'" class="btn btn-primary" onclick="aceptar('+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+cont+'" class="btn btn-warning" onclick="editar('+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+idprod+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
+        var fila = '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" id="stock-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button><button type="button" id="aceptar_prod-'+cont+'" class="btn btn-primary" onclick="aceptar('+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+cont+'" class="btn btn-warning" onclick="editar('+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
         cont++;
         limpiar();
         $("#total").html("S/. "+totalIGV);
+        $("#total").val(totalIGV);
         $("#total_sale").val(detotal);
         $("#detalles").append(fila);
         return detotal;
@@ -218,10 +219,12 @@ function limpiar(){
 
 function eliminar(id){
     $.alertable.confirm("¿Está seguro de elminar este producto de la lista?").then(function() {
+        ReducirClicks();
         total = parseFloat(total) - parseFloat(subtotal[id]);
         detotal = parseFloat(total).toFixed(2);
         totalIGV = detotal - detotal * parseFloat($('#igv').val());
         $("#total").html("S/. " + totalIGV);
+        $("#total").val(totalIGV);
         $("#total_sale").val(detotal);
         $("#fila" + id).remove();
         evaluar();
@@ -253,6 +256,7 @@ $('#igv').change(CalcularTotalIGV);
 function CalcularTotalIGV(){
     totalIGV = detotal - detotal * parseFloat($('#igv').val());
     $("#total").html("S/. " + totalIGV);
+    $("#total").val(totalIGV);
     $("#total_sale").val(detotal);
 }
 
@@ -299,6 +303,7 @@ function aceptar(id){
     var totalIGV2 = total_final - total_final * parseFloat($('#igv').val());
     /*console.log(total_final+'-'+totalIGV2);*/
     $("#total").html("S/. " + totalIGV2);
+    $("#total").val(totalIGV2);
     $("#subtotal-"+id).val(parseFloat(parseFloat(parseInt(cant) * pventa - desc).toFixed(2)).toFixed(2));
     $("#total_sale").val(total_final);
 }
@@ -314,35 +319,35 @@ $('#btn_guardarventa').on('click',function(e){
     var numero = $('#numero').val();
     var idforma = $('#id_forma_pago').val();
     var idtipoventa = $('#id_tipo_venta').val();
+    var igv = $('#igv').val();
+    var total=$('#total').val();
     ObtenerFechaActual();
     var fecha_actual = ObtenerFechaActual();
     if(idtipoventa==1){
         var fechacredito = "";
-        var nrodias = "";
+        var nrodias = 0;
     }else if(idtipoventa==2){
         var fechacredito = $('#fecha_venta').val();
         var nrodias = ObtenerNroDias(fecha_actual,fechacredito);
     }
 
 
-    var arreglo = [];
+    /*var arreglo = [];
     var dato1 = $('#id0').val();
     var dato2 = $('#id1').val();
 
-    /*var detalles = [{"id_producto":dato1, "stock":"100"},{"id_producto":dato2, "stock":"100"}];*/
+    var detalles = [{"id_producto":dato1, "stock":"100"},{"id_producto":dato2, "stock":"100"}];*/
 
-    var arrayProperties = new Array();
-    for (var x = 0; x <2; x++){
+    var arrayDetalles = new Array();
+    for (var x = 0; x <clicks; x++){
         var detalles = new Object();
         detalles.ID_Producto = $("#idprod-"+x).val();
         detalles.Cantidad = $("#cant-"+x).val() ;
         detalles.Precio = $("#pventa-"+x).val();
         detalles.Descuento = $("#desc-"+x).val();
-        detalles.Subtotal = $("#total").val() ;
-        detalles.IGV = $("#igv").val();
-        detalles.Total = $("#total_sale").val();
+        detalles.Subtotal = $("#subtotal-"+x).val() ;
 
-        arrayProperties.push(detalles);
+        arrayDetalles.push(detalles);
     }
     /*var res = JSON.stringify(arrayProperties);
     console.log(res);*/
@@ -351,10 +356,24 @@ $('#btn_guardarventa').on('click',function(e){
     var datos = {"ID_Cliente":idclient,"ID_Usuario":idusuario,"ID_Tipo_Documento":idtipodoc,
         "Serie":serie,"Numero":numero,"FechaVenta_Actual":fecha_actual,"ID_Forma_Pago":idforma,
         "FechaVenta_Credito":fechacredito,"Nro_Dias":nrodias,
-        "Detalles":arrayProperties};
+        "IGV":igv,"Total":total,"Detalles":arrayDetalles};
     console.log(datos);
 
+
+
+
 });
+
+var clicks = 0;
+function AumentarClicks(){
+    clicks=clicks+1
+    return clicks;
+}
+
+function ReducirClicks(){
+    clicks=clicks-1
+    return clicks;
+}
 
 function ObtenerFechaActual(){
     var hoy = new Date();

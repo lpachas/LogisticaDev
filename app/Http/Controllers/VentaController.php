@@ -52,4 +52,9 @@ class VentaController extends Controller
         $marcas=DB::table('t_marca')->get();
         return response()->json([$marcas]);
     }
+
+    public function store(VentaFormRequest $request){
+
+    }
+
 }
