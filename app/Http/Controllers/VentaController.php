@@ -62,16 +62,32 @@ class VentaController extends Controller
         $venta->ID_Tipo_Documento = $request->get('ID_Tipo_Documento');
         $venta->Serie = $request->get('Serie');
         $venta->Numero = $request->get('Numero');
-        /*MANEJO DE FECHA VENTA ACTUAL */
+        $venta->FechaVenta_Actual= $request->get('FechaVenta_Actual');
         $venta->ID_Forma_Pago=$request->get('ID_Forma_Pago');
         $venta->Estado='Venta';
-        /*MANEJO DE FECHA VENTA CREDITO */
+        $venta->FechaVenta_Credito = $request->get('FechaVenta_Credito');
         $venta->Nro_Dias=$request->get('Nro_Dias');
         $venta->IGV = $request->get('IGV');
         $venta->Total = $request->get('Total');
         $venta->save();
 
-        if ($venta){
+        /*Cantidad de Productos Vendidos */
+        $cantidad = count($request->get('Detalles'));
+
+        $contador = 0;
+        while($contador < $cantidad) {
+            $detalle = new Detalle_Venta();
+            $detalle->ID_Doc_Venta = $venta->ID_Doc_Venta;
+            $detalle->ID_Producto = $request->get('Detalles')[$contador]['ID_Producto'];
+            $detalle->Cantidad = $request->get('Detalles')[$contador]['Cantidad'];
+            $detalle->Precio = $request->get('Detalles')[$contador]['Precio'];
+            $detalle->Descuento = $request->get('Detalles')[$contador]['Descuento'];
+            $detalle->Subtotal = $request->get('Detalles')[$contador]['Subtotal'];
+            $detalle->save();
+            $contador = $contador + 1;
+        }
+
+        if ($cantidad){
             return response()->json(['success'=>'true']);
         }else{
             return response()->json(['success'=>'false']);

@@ -30,7 +30,6 @@ class VentaFormRequest extends Request
             'Serie'=>'required|max:3',
             'Numero'=>'required|max:7',
             'ID_Forma_Pago'=>'required|max:11',
-
             'Nro_Dias'=>'required',
             'IGV'=>'required',
             'Total'=>'required',
