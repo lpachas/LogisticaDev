@@ -7,6 +7,7 @@ use SISTEMA_LOGISTICA\Http\Requests;
 use SISTEMA_LOGISTICA\Producto;
 use SISTEMA_LOGISTICA\Venta;
 use SISTEMA_LOGISTICA\Detalle_Venta;
+use SISTEMA_LOGISTICA\Kardex;
 use Illuminate\Support\Facades\Redirect;
 use SISTEMA_LOGISTICA\Http\Requests\VentaFormRequest;
 use DB;
@@ -87,10 +88,30 @@ class VentaController extends Controller
             $contador = $contador + 1;
         }
 
-        if ($cantidad){
-            return response()->json(['success'=>'true']);
+        /*Agregar Kardex */
+
+        $cont = 0;
+        while($cont < $cantidad){
+            $fec =Carbon::now('America/Lima');
+            $fecha=$fec->toDateTimeString();
+            $idventa = $venta->ID_Doc_Venta;
+            $idproducto= $request->get('Detalles')[$cont]['ID_Producto'];
+            $cantprod = $request->get('Detalles')[$cont]['Cantidad'];
+            $desc = "";
+            $kardex = DB::select('call sp_kardex(?,?,?,?,?)',array($idventa,$fecha,$idproducto,$cantprod,$desc));
+            $cont = $cont +1;
+        }
+
+        if ($venta){
+            if ($detalle){
+                if ($kardex) {
+                    return response()->json(['Mensaje' => 'Todo Ok']);
+                }
+            }else{
+                return response()->json(['Mensaje'=>'Error en el detalle']);
+            }
         }else{
-            return response()->json(['success'=>'false']);
+            return response()->json(['Mensaje'=>'Error en la venta']);
         }
 
     }
