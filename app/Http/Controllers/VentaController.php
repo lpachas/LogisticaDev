@@ -106,6 +106,8 @@ class VentaController extends Controller
             if ($detalle){
                 if ($kardex) {
                     return response()->json(['Mensaje' => 'Todo Ok']);
+                }else{
+                    return response()->json(['Mensaje' => 'Todo Ok']);
                 }
             }else{
                 return response()->json(['Mensaje'=>'Error en el detalle']);
