@@ -42,9 +42,9 @@ function ValidarCantidad_Stock(){
     if(stock < cant){
         swal({
             title: "Error!",
-            text: "La Cantidad debe ser menor que el Stock",
+            text: "La cantidad debe ser menor que el stock",
             type: "error",
-            confirmButtonText: "Ok"
+            confirmButtonText: "OK"
         });
         $('#pventa').attr('disabled', 'disabled');
         $('#descuento').attr('disabled', 'disabled');
@@ -241,9 +241,9 @@ function editar(id){
         if(stock < cant){
             swal({
                 title: "Error!",
-                text: "La Cantidad debe ser menor que el Stock",
+                text: "La cantidad debe ser menor que el stock",
                 type: "error",
-                confirmButtonText: "Ok"
+                confirmButtonText: "OK"
             });
         }
     }

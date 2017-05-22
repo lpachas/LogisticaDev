@@ -57,7 +57,7 @@ class VentaController extends Controller
     }
 
     public function store(VentaFormRequest $request){
-        $venta = new Venta;
+        /*$venta = new Venta;
         $venta->ID_Cliente = $request->get('ID_Cliente');
         $venta->ID_Usuario = $request->get('ID_Usuario');
         $venta->ID_Tipo_Documento = $request->get('ID_Tipo_Documento');
@@ -72,7 +72,7 @@ class VentaController extends Controller
         $venta->Total = $request->get('Total');
         $venta->save();
 
-        /*Cantidad de Productos Vendidos */
+        Cantidad de Productos Vendidos
         $cantidad = count($request->get('Detalles'));
 
         $contador = 0;
@@ -88,7 +88,7 @@ class VentaController extends Controller
             $contador = $contador + 1;
         }
 
-        /*Agregar Kardex */
+        Agregar Kardex
 
         $cont = 0;
         while($cont < $cantidad){
@@ -100,22 +100,44 @@ class VentaController extends Controller
             $desc = "";
             $kardex = DB::select('call sp_kardex(?,?,?,?,?)',array($idventa,$fecha,$idproducto,$cantprod,$desc));
             $cont = $cont +1;
+        }*/
+
+        /*Actualizar la Boleta*/
+
+        $idtipodoc = $request->get('ID_Tipo_Documento');
+        $sertipodoc = $request->get('Serie');
+        $numtipodoc = $request->get('Numero');
+        $convert = array_map('intval',str_split($numtipodoc));
+
+        if ($convert[6]==9){
+            if ($convert[5] < 9) {
+                $convert[6] = 0;
+                $convert[5] = $convert[5] + 1;
+            }
+        }else{
+            $convert[6]= $convert[6] + 1;
         }
 
-        if ($venta){
+        if ($convert[5] == 9 && $convert[6]== 9){
+            $convert[6] = 0;
+            $convert[5] = 0;
+            $convert[4] = $convert[4] + 1;
+        }
+
+
+
+        return response()->json(['Mensaje'=>$convert]);
+        /************************/
+
+        /*if ($venta){
             if ($detalle){
-                if ($kardex) {
-                    return response()->json(['Mensaje' => 'Todo Ok']);
-                }else{
-                    return response()->json(['Mensaje' => 'Todo Ok']);
-                }
+                return response()->json(['Mensaje'=>$numtipodoc2]);
             }else{
                 return response()->json(['Mensaje'=>'Error en el detalle']);
             }
         }else{
             return response()->json(['Mensaje'=>'Error en la venta']);
-        }
-
+        }*/
     }
 
 }

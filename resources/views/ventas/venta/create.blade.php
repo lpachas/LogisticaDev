@@ -224,10 +224,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" id="guardar">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right" id="guardar">
                                 <div class="form-group">
-                                    <button class="btn btn-primary" type="button" id="btn_guardarventa">Guardar</button>
                                     <button class="btn btn-danger" type="reset">Cancelar</button>
+                                    <button class="btn btn-primary" type="button" id="btn_guardarventa">Guardar</button>
                                 </div>
                             </div>
                         </div>
@@ -320,21 +320,40 @@
         var token = $("input[name=_token]").val();
         var route = "{{route('ventas.venta.store')}}";
 
-        $.ajax({
-            url: route,
-            headers: {'X-CSRF-TOKEN':token},
-            type:'post' ,
-            datatype: 'json',
-            data: datos,
-            success:function(data)
-            {
-                console.log(data);
-            },
-            error:function(data){
-                console.log(data);
-            }
-        });
-
+        if(idclient == "" || idusuario== "" || idtipodoc == "" || serie=="" || numero == "" || idforma=="" || arrayDetalles == ""){
+            swal({
+                    title: "Datos Vacíos",
+                    text: "Por favor, llene el formulario",
+                    type: "warning"
+            });
+        }else{
+            swal({
+                    title: "¿Realizar Venta?",
+                    text: "Por favor, revise los datos antes de completar la venta",
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    cancelButtonText: 'Cancelar',
+                    showLoaderOnConfirm: true,
+                },
+                function(){
+                    $.ajax({
+                        url: route,
+                        headers: {'X-CSRF-TOKEN':token},
+                        type:'post' ,
+                        datatype: 'json',
+                        data: datos,
+                        success:function(data)
+                        {
+                            swal("¡Éxito!", "La venta se completó con éxito", "success");
+                            console.log(data);
+                        },
+                        error:function(data){
+                            console.log(data);
+                        }
+                    });
+                });
+        }
     });
 </script>
 @endpush
