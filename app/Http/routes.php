@@ -42,6 +42,10 @@ Route::get('marca/getmarcasInfo','MarcaController@get_marca_info');
 Route::get('listamarcas/{page?}','MarcaController@listamarcas');
 Route::get('marca/getmarcasinfosearch','MarcaController@getmarcasinfosearch');
 
+Route::get('venta/getventasInfo','VentaController@get_venta_info');
+Route::get('listaventas/{page?}','VentaController@listaventas');
+Route::get('venta/getventasinfosearch','VentaController@getventasinfosearch');
+
 Route::get('categoria/getcategoriasInfo','CategoriaController@get_categoria_info');
 Route::get('listacategorias/{page?}','CategoriaController@listacategorias');
 Route::get('categoria/getcategoriasinfosearch','CategoriaController@getcategoriasinfosearch');

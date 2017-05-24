@@ -345,7 +345,17 @@
                         data: datos,
                         success:function(data)
                         {
-                            swal("¡Éxito!", "La venta se completó con éxito", "success");
+                            swal({
+                                title: '¡Éxito!',
+                                text: "La venta se completó con éxito",
+                                type: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'Otra Venta',
+                                cancelButtonText: 'Ver Detalle',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false
+                            });
                             console.log(data);
                         },
                         error:function(data){

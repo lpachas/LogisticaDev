@@ -7,6 +7,7 @@ use SISTEMA_LOGISTICA\Http\Requests;
 use SISTEMA_LOGISTICA\Producto;
 use SISTEMA_LOGISTICA\Venta;
 use SISTEMA_LOGISTICA\Detalle_Venta;
+use SISTEMA_LOGISTICA\Tipo_Documento;
 use SISTEMA_LOGISTICA\Kardex;
 use Illuminate\Support\Facades\Redirect;
 use SISTEMA_LOGISTICA\Http\Requests\VentaFormRequest;
@@ -23,6 +24,39 @@ class VentaController extends Controller
 
     public function index(){
         return view('ventas.venta.ventas');
+    }
+
+    public function get_venta_info(Request $request)
+    {
+        if($request->ajax())
+        {
+            $ventas=$this->listaventas($request['search']);
+            if(!empty($request['search']))
+            {
+                $search=$request['search'];
+                $view=view('ventas.venta.listaventas',compact('ventas','search'))->render();
+                return response($view);
+            }else{
+                $view=view('ventas.venta.listaventas',compact('ventas'))->render();
+                return response($view);
+            }
+        }
+    }
+
+    public function listaventas($search)
+    {
+        return  $ventas=DB::table('t_doc_venta')->where('Numero','LIKE','%'.$search.'%')
+            ->orderBy('ID_Doc_Venta','DESC')
+            ->paginate(10);
+    }
+
+    public function getventasinfosearch(Request $request)
+    {
+        if($request->ajax())
+        {
+            $ventas=$this->listaventas($request['search']);
+            return view('ventas.venta.listaventas',compact('ventas'))->render();
+        }
     }
 
     public function create(){
@@ -57,7 +91,7 @@ class VentaController extends Controller
     }
 
     public function store(VentaFormRequest $request){
-        /*$venta = new Venta;
+        $venta = new Venta;
         $venta->ID_Cliente = $request->get('ID_Cliente');
         $venta->ID_Usuario = $request->get('ID_Usuario');
         $venta->ID_Tipo_Documento = $request->get('ID_Tipo_Documento');
@@ -72,7 +106,7 @@ class VentaController extends Controller
         $venta->Total = $request->get('Total');
         $venta->save();
 
-        Cantidad de Productos Vendidos
+        /*Cantidad de Productos Vendidos*/
         $cantidad = count($request->get('Detalles'));
 
         $contador = 0;
@@ -88,7 +122,7 @@ class VentaController extends Controller
             $contador = $contador + 1;
         }
 
-        Agregar Kardex
+        /*Agregar Kardex*/
 
         $cont = 0;
         while($cont < $cantidad){
@@ -100,44 +134,80 @@ class VentaController extends Controller
             $desc = "";
             $kardex = DB::select('call sp_kardex(?,?,?,?,?)',array($idventa,$fecha,$idproducto,$cantprod,$desc));
             $cont = $cont +1;
-        }*/
+        }
 
-        /*Actualizar la Boleta*/
-
+        /*Actualizar el tipo de documento*/
         $idtipodoc = $request->get('ID_Tipo_Documento');
         $sertipodoc = $request->get('Serie');
         $numtipodoc = $request->get('Numero');
         $convert = array_map('intval',str_split($numtipodoc));
 
         if ($convert[6]==9){
-            if ($convert[5] < 9) {
-                $convert[6] = 0;
+            $convert[6]=0;
+            if($convert[5] < 9)
+            {
                 $convert[5] = $convert[5] + 1;
-            }
+            }elseif($convert[5]==9)
+             {
+                $convert[5]=0;
+                if($convert[4] < 9)
+                {
+                    $convert[4]=$convert[4]+1;
+                }elseif ($convert[4]==9)
+                 {
+                   $convert[4]=0;
+                   if($convert[3]<9)
+                   {
+                     $convert[3]=$convert[3]+1;
+                   }elseif ($convert[3]==9)
+                    {
+                     $convert[3]=0;
+                     if($convert[2]<9)
+                     {
+                      $convert[2]=$convert[2]+1;
+                     }elseif ($convert[2]==9)
+                      {
+                        $convert[2]=0;
+                        if($convert[1]<9)
+                        {
+                          $convert[1]=$convert[1]+1;
+                        }elseif ($convert[1]==9)
+                         {
+                           $convert[1]=0;
+                           if($convert[0]<9)
+                           {
+                             $convert[0]=$convert[0]+1;
+                           }elseif ($convert[0]==9){
+
+                           }
+                         }
+                      }
+                    }
+                 }
+             }
         }else{
             $convert[6]= $convert[6] + 1;
         }
-
-        if ($convert[5] == 9 && $convert[6]== 9){
-            $convert[6] = 0;
-            $convert[5] = 0;
-            $convert[4] = $convert[4] + 1;
-        }
-
-
-
-        return response()->json(['Mensaje'=>$convert]);
+        $boleta=implode("",$convert);
+        $tdoc = Tipo_Documento::findOrFail($idtipodoc);
+        $tdoc->Serie = $sertipodoc;
+        $tdoc->Numero = $boleta;
+        $tdoc->update();
         /************************/
 
-        /*if ($venta){
+        if ($venta){
             if ($detalle){
-                return response()->json(['Mensaje'=>$numtipodoc2]);
+                if ($tdoc){
+                    return response()->json(['success'=>'true']);
+                }else{
+                    return response()->json(['success'=>'false']);
+                }
             }else{
-                return response()->json(['Mensaje'=>'Error en el detalle']);
+                return response()->json(['success'=>'false']);
             }
         }else{
-            return response()->json(['Mensaje'=>'Error en la venta']);
-        }*/
+            return response()->json(['success'=>'false']);
+        }
     }
 
 }
