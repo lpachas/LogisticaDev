@@ -1,29 +1,35 @@
-
 <table class="table table-striped">
     <thead>
     <tr>
-        <th width="40%">Nombre</th>
-        <th width="40%">Descripción</th>
-        <th width="20%">Opciones</th>
+        <th width="25%">Cliente</th>
+        <th width="15%">Usuario</th>
+        <th width="13%">Documento</th>
+        <th width="13%">Serie</th>
+        <th width="13%">Número</th>
+        <th width="10">Fecha</th>
+        <th width="11%">Opciones</th>
     </tr>
     </thead>
     <tbody>
-    @if(count($categorias)>0)
-        @foreach($categorias as $categoria)
-            <tr class="id{{$categoria->ID_Categoria}}">
-                <td width="40%" class="text-left">{{$categoria->Nombre}}</td>
-                <td width="40%" class="text-left">{{$categoria->Descripcion}}</td>
-                <td width="20%" class="text-left">
-                    <a title="Editar Categoría" alt="Editar Categoría" href="javascript:EditarCategoria({{$categoria->ID_Categoria}})" class="btn btn-warning"><i class="fa fa-edit"></i></a>
-                    <a title="Eliminar Categoría" alt="Eliminar Categoría" href="javascript:EliminarCategoria('{{$categoria->ID_Categoria}}','{{$categoria->Nombre}}')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+    @if(count($ventas)>0)
+        @foreach($ventas as $venta)
+            <tr class="id{{$venta->ID_Doc_Venta}}">
+                <td width="25%" class="text-left">{{$venta->Cliente}}</td>
+                <td width="15%" class="text-left">{{$venta->Usuario}}</td>
+                <td width="13%" class="text-left">{{$venta->Documento}}</td>
+                <td width="13%" class="text-left">{{$venta->Serie}}</td>
+                <td width="13%" class="text-left">{{$venta->Numero}}</td>
+                <td width="10%" class="text-left">{{$venta->Fecha}}</td>
+                <td width="11%" class="text-left">
+                    <a href="{{URL::action('VentaController@show', $venta->ID_Doc_Venta)}}" title="Ver Detalle" alt="Ver Detalle" ><button class="btn btn-primary"><i class="fa fa-sign-in"></i></button></a>
                 </td>
             </tr>
         @endforeach
     @else
         <tr>
-            <td colspan="3">No se encontraron resultados</td>
+            <td colspan="7">No se encontraron resultados</td>
         </tr>
     @endif
     </tbody>
 </table>
-{!! $categorias->links() !!}
+{!! $ventas->links() !!}

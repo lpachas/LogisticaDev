@@ -37,3 +37,14 @@
 .contenedor{
 	text-align: center;
 }
+
+div#export {
+	border: 1px solid;
+	padding: 10px;
+	margin: 10px 0;
+}
+
+div#export i {
+	font-size: 18px;
+	margin: 0 2px;
+}

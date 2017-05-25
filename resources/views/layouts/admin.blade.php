@@ -68,21 +68,22 @@
                             </li>
                             <li><a><i class="fa fa-user"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">Trabajador</a></li>
-                                    <li><a href="#">Usuarios</a></li>
+                                    <li><a href="{{url('usuarios/trabajador')}}">Trabajador</a></li>
+                                    <li><a href="{{url('usuarios/usuario')}}">Usuarios</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-table"></i> Almacén <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">Marcas</a></li>
-                                    <li><a href="#">Categorías</a></li>
-                                    <li><a href="#">Modelos</a></li>
-                                    <li><a href="#">Productos</a></li>
+                                    <li><a href="{{url('almacen/marca')}}">Marcas</a></li>
+                                    <li><a href="{{url('almacen/categoria')}}">Categorías</a></li>
+                                    <li><a href="{{url('almacen/modelo')}}">Modelos</a></li>
+                                    <li><a href="{{url('almacen/producto')}}">Productos</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-table"></i> Ventas <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-outdent"></i> Ventas <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">Ventas</a></li>
+                                    <li><a href="{{url('ventas/venta')}}">Ventas</a></li>
+                                    <li><a href="#">Clientes</a></li>
                                 </ul>
                             </li>
                         </ul>

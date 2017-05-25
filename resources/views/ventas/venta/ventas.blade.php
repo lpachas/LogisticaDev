@@ -3,13 +3,13 @@
 @section('content')
     <div class="page-title">
         <div class="title_left">
-            <a class="btn alert-success" id="btn_newventa" style="margin-top: 10px;"><i class="fa fa-plus"></i> Nueva Venta</a>
+            <a class="btn alert-success" href="venta/create" style="margin-top: 10px;"><i class="fa fa-plus"></i> Nueva Venta</a>
         </div>
 
         <div class="title_right">
             <div class="col-md-6 col-sm-6 col-xs-12 form-group pull-right top_search">
 
-                <form action="{{url('')}}" method="get" id="frmsearch">
+                <form action="{{url('venta/getventasInfo')}}" method="get" id="frmsearch">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" name="search" id="search" class="form-control" onkeyup="" placeholder="Buscar Venta">
@@ -45,6 +45,7 @@
     $(document).ready(function(){
         IniciarVenta();
     });
+
     $("#frmsearch").on("submit",function(e){
         e.preventDefault();
         var url = $(this).attr('action');
@@ -83,4 +84,6 @@
             $("#detalle_ventas").html(data);
         });
     }
+
 </script>
+@endpush

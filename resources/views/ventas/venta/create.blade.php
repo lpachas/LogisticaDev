@@ -216,7 +216,7 @@
                                     <th width="30%"></th>
                                     <th width="15%"></th>
                                     <th width="15%"><br>IGV</th>
-                                    <th width="15%"><input type="checkbox" id="check"><input type="text" id="igv" value="0.08" class="form-control" disabled></th>
+                                    <th width="15%"><input type="checkbox" id="check"><input type="text" id="igv" value="0.18" class="form-control" disabled></th>
                                     <th width="15%"><h4 id="total">S/. 0.00 </h4><input type="hidden" name="total_sale" id="total_sale"></th>
                                     </tfoot>
                                     <tbody>
