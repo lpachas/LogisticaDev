@@ -8,12 +8,11 @@ use SISTEMA_LOGISTICA\Producto;
 use SISTEMA_LOGISTICA\Venta;
 use SISTEMA_LOGISTICA\Detalle_Venta;
 use SISTEMA_LOGISTICA\Tipo_Documento;
-use SISTEMA_LOGISTICA\Kardex;
-use Illuminate\Support\Facades\Redirect;
+use SISTEMA_LOGISTICA\Http\Controllers\Controller;
 use SISTEMA_LOGISTICA\Http\Requests\VentaFormRequest;
 use DB;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Input;
 
 class VentaController extends Controller
 {
@@ -233,5 +232,18 @@ class VentaController extends Controller
             ->get();
 
         return view("ventas.venta.show",["venta"=>$venta,"detalles"=>$detalles]);
+    }
+
+    public function autocomplete(Request $request){
+        $term=$request->term;
+        $data= Producto::where('Nombre','LIKE','%'.$term.'%')
+        ->take(50)
+        ->get();
+        $results=array();
+        foreach ($data as $v)
+        {
+            $results[]=['id'=>$v->ID_Producto,'value'=>$v->Nombre];
+        }
+        return response()->json($results);
     }
 }

@@ -12,6 +12,7 @@
     <!-- Bootstrap -->
     <link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('build/css/bootstrap-select.min.css') }}">
+    <link href="{{asset('js/jquery-ui.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{asset('vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
     <!-- NProgress -->
@@ -170,6 +171,8 @@
 <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('vendors/bootstrap/dist/js/bootstrap.js')}}"></script>
+<script src="{{asset('js/jquery-ui.min.js')}}"></script>
+<script src=""
 <script type="text/javascript" src="{{asset('js/bootstrap-datepicker.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/bootstrap-datepicker.es.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-select.min.js')}}"></script>

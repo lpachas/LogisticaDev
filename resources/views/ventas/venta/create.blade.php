@@ -5,7 +5,8 @@
             <div class="col-md-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Nueva Venta</h2>
+                        <h2 style="margin-right: 10px;">Realizar Venta</h2>
+                        <a href="create" class="btn btn-primary"><i class="fa fa-plus"></i> Nueva Venta</a>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -19,12 +20,14 @@
                                              <div class="col-md-8">
                                                  <div class="form-group">
                                                      <label>Cliente:</label>
-                                                     <select id="id_cliente" class="form-control selectpicker" data-live-search="true">
+                                                     <div id="seccion-cliente">
+                                                        <select id="id_cliente" class="form-control selectpicker" data-live-search="true">
                                                          <option value="">--Seleccione un cliente--</option>
                                                          @foreach($clientes as $cliente)
-                                                             <option value="{{$cliente->ID_Cliente}}">{{$cliente->Nombre}}</option>
+                                                             <option value="{{$cliente->ID_Cliente}}">{{$cliente->RUC_DNI}} - {{$cliente->Nombre}}</option>
                                                          @endforeach
-                                                     </select>
+                                                        </select>
+                                                     </div>
                                                  </div>
                                              </div>
                                              <div class="col-md-4" style="padding-top: 1.7em;">
@@ -53,12 +56,12 @@
                                              <div class="col-md-6">
                                                  <div class="form-group">
                                                      <label>Fecha:</label>
-                                                     <div class="input-group date" id="fecha">
+                                                     <!--<div class="input-group date" id="fecha">
                                                          <div class="input-group-addon">
                                                              <i class="fa fa-calendar"></i>
                                                          </div>
                                                          <input type="text" class="form-control pull-right" id="fecha_venta" name="fecha_venta">
-                                                     </div>
+                                                     </div>-->
                                                  </div>
                                              </div>
                                          </div>
@@ -123,45 +126,42 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Producto:</label>
-                                            <select id="id_producto" class="form-control selectpicker" data-live-search="true">
-                                                <option value="">--Seleccione un Producto--</option>
-                                                @foreach($productos as $prod)
-                                                <option value="{{$prod->ID_Producto}}">{{$prod->Nombre}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" id="id_producto" class="form-control" name="id_producto">
+
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group" id="cont-marca">
                                             <label>Marca:</label>
-                                            <select id="id_marca" name="id_marca" class="form-control selectpicker" data-live-search="true">
+                                            <input type="text" id="id_marca" class="form-control">
+                                            <!--<select id="id_marca" name="id_marca" class="form-control selectpicker" data-live-search="true">
                                                 <option value="">--Seleccione una Marca--</option>
                                                 @foreach($marcas as $m)
                                                     <option value="{{$m->ID_Marca}}">{{$m->Nombre}}</option>
                                                 @endforeach
-                                            </select>
+                                            </select>-->
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Categoría:</label>
-                                            <select id="id_categoria" name="id_categoria" class="form-control selectpicker" data-live-search="true">
+                                            <!--<select id="id_categoria" name="id_categoria" class="form-control selectpicker" data-live-search="true">
                                                 <option value="">--Seleccione una Categoría--</option>
                                                 @foreach($categorias as $c)
                                                     <option value="{{$c->ID_Categoria}}">{{$c->Nombre}}</option>
                                                 @endforeach
-                                            </select>
+                                            </select>-->
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Modelo</label>
-                                            <select id="id_modelo" name="id_modelo" class="form-control selectpicker" data-live-search="true">
+                                            <!--<select id="id_modelo" name="id_modelo" class="form-control selectpicker" data-live-search="true">
                                                 <option value="">--Seleccione un Modelo--</option>
                                                 @foreach($modelos as $m)
                                                     <option value="{{$m->ID_Modelo}}">{{$m->Nombre}}</option>
                                                 @endforeach
-                                            </select>
+                                            </select>-->
                                         </div>
                                     </div>
                                 </div>
@@ -241,7 +241,26 @@
 @push('scripts')
 <script src="{{asset('js/ventas/ventas.js') }}"></script>
 <script src="{{asset('js/sweetalert.min.js')}}"></script>
-<script>
+
+<script type="text/javascript">
+    $('#id_producto').autocomplete({
+       source:'{!! URL::route('autocomplete') !!}',
+        minlength:1,
+        autoFocus:true,
+        select:function(e,ui){
+           $('#id_marca').val(ui.item.id);
+        }
+    });
+
+    $('#btn_prueba').on('click',function(e){
+        e.preventDefault();
+        var cliente ='<input type="hidden" class="form-control" id="id_cliente" value="1"><input type="text" class="form-control" value="Prueba" disabled>';
+        $('#seccion-cliente').html(cliente);
+        var id= $('#id_cliente').val();
+        console.log(id);
+    });
+
+
     $('#btnregistrar_cliente').on('click',function(e){
         e.preventDefault();
         var nom = $('#nombre').val();
@@ -266,6 +285,8 @@
                 {
                     $('#mensaje_cliente').addClass('exito').html("El Cliente ha sido registrado").show(300).delay(3000).hide(300);
                     CerrarModal();
+                    var cliente ='<input type="hidden" class="form-control" id="id_cliente" value="'+data.id_cliente+'"><input type="text" class="form-control" value="'+data.doc+' - '+data.nombre+'" disabled>';
+                    $('#seccion-cliente').html(cliente);
                 }else{
                     $('#mensaje_cliente').addClass('error').html('Error al registrar al cliente').show(300).delay(3000).hide(300);
                     $('#nombre').focus();
@@ -278,6 +299,11 @@
         });
     });
 
+    function CerrarModal(){
+        setTimeout(function(){
+            $('#reg_cliente').modal('toggle');
+        }, 3500);
+    }
     $('#btn_guardarventa').on('click',function(e){
         e.preventDefault();
         var idclient = $('#id_cliente').val();

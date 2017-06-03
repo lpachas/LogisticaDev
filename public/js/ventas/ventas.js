@@ -4,15 +4,17 @@ $(document).ready(function(){
         agregar();
         AumentarClicks();
     });
+    FechaxTipo("");
     $('#id_tipo_venta').change(function(e) {
         var id = $('#id_tipo_venta').val();
         FechaxTipo(id);
     });
+    DetallesDocumentoDisabled();
 });
 function FechaxTipo(id){
     var date = new Date();
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    if(id==1){
+    if(id==1 || id==""){
         $('#fecha_venta').attr('disabled', 'disabled');
         $('#fecha').datepicker({
             startDate: today,
@@ -35,6 +37,17 @@ function FechaxTipo(id){
         });
     }
 }
+
+function DetallesDocumentoDisabled(){
+    if($('#id_documento').val() == "" ){
+        $('#serie').attr('disabled', 'disabled');
+        $('#numero').attr('disabled', 'disabled');
+    }else{
+        $('#serie').removeAttr('disabled');
+        $('#numero').removeAttr('disabled');
+    }
+}
+
 $('#cantidad').change(ValidarCantidad_Stock);
 function ValidarCantidad_Stock(){
     var cant = $('#cantidad').val();
@@ -81,10 +94,22 @@ $("#id_documento").change(cargarDatosDoc);
 
 function cargarDatosDoc()
 {
-    datosTipoDoc = document.getElementById('id_documento').value.split('_');
-    $("#numero").val(datosTipoDoc[2]);
-    $("#serie").val(datosTipoDoc[1]);
+    if($('#id_documento').val() != ""){
+        $('#serie').removeAttr('disabled');
+        $('#numero').removeAttr('disabled');
+        datosTipoDoc = document.getElementById('id_documento').value.split('_');
+        $("#numero").val(datosTipoDoc[2]);
+        $("#serie").val(datosTipoDoc[1]);
+    }else{
+        $('#serie').attr('disabled', 'disabled');
+        $('#numero').attr('disabled', 'disabled');
+        $("#numero").val("");
+        $("#serie").val("");
+    }
+
 }
+
+
 
 $('#btn_cliente').on('click',function(e){
     e.preventDefault();
@@ -94,13 +119,6 @@ $('#btn_cliente').on('click',function(e){
         backdrop:'static'
     });
 });
-
-function CerrarModal(){
-    setTimeout(function(){
-        $('#reg_cliente').modal('toggle');
-    }, 3500);
-}
-
 
 $('#id_producto').change(function(e) {
     e.preventDefault();

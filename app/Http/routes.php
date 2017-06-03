@@ -70,6 +70,8 @@ Route::get('usuario/getusuariosInfo','UsuarioController@get_usuario_info');
 Route::get('listausuario/{page?}','UsuarioController@listausuarios');
 Route::get('usuario/getusuariosinfosearch','UsuarioController@getusuariosinfosearch');
 
+Route::get('ventas/venta/create/autocomplete',array('as'=>'autocomplete','uses'=>'VentaController@autocomplete'));
+
 Route::auth();
 
 Route::get('/home', 'HomeController@index');

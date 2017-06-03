@@ -23,7 +23,7 @@ class ClienteController extends Controller
         $cliente->save();
 
         if ($cliente) {
-            return response()->json(['success'=>'true']);
+            return response()->json(['success'=>'true','id_cliente'=>$cliente->ID_Cliente,'nombre'=>$cliente->Nombre,'doc'=>$cliente->RUC_DNI]);
         }else{
             return response()->json(['success'=>'false']);
         }
