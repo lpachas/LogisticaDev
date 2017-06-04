@@ -114,6 +114,15 @@ class ProductoController extends Controller
 
     }
 
+    public function stock($id)
+    {
+        $producto = Producto::FindOrFail($id);
+        if ($producto)
+        {
+            return response()->json($producto);
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *

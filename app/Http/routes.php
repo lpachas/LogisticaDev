@@ -72,6 +72,8 @@ Route::get('usuario/getusuariosinfosearch','UsuarioController@getusuariosinfosea
 
 Route::get('ventas/venta/create/autocomplete',array('as'=>'autocomplete','uses'=>'VentaController@autocomplete'));
 
+Route::get('almacen/producto/{id?}/stock','ProductoController@stock');
+
 Route::auth();
 
 Route::get('/home', 'HomeController@index');

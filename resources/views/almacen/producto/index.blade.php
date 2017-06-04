@@ -267,5 +267,44 @@
                 }
             });
         });
+
+        var ActualizarStock = function(id) {
+            var route = "{{url('almacen/producto')}}/" + id + "/stock";
+            $.get(route, function (data) {
+                $('#id_producto_act').val(data.ID_Producto);
+                $('#stock_actual').val(data.Stock);
+                $('#upd_stock_mod').modal({
+                    show: true,
+                    backdrop: 'static'
+                });
+                return false;
+            });
+        }
+
+        $("#btnAct_Stock").on('click',function(e){
+            e.preventDefault();
+            /* aqui me quedo */
+            $('#mensaje_categoria_edit').addClass('text-center').html('<img src="{{asset('img/ajax-loader.gif')}}"> Cargando...');
+            var id = $("#id_categoria").val();
+            var nombre = $("#nombre_edit").val();
+            var descripcion = $("#descripcion_edit").val();
+            var route = "{{url('almacen/categoria')}}/"+id+"";
+            var token = $("#token").val();
+            var dataString = {'Nombre':nombre,'Descripcion':descripcion};
+            $.ajax({
+                url:route,
+                headers: {'X-CSRF-TOKEN':token},
+                type:'PUT',
+                dataType: 'json',
+                data: dataString,
+                success: function(data){
+                    if(data.success == 'true') {
+                        $('#mensaje_categoria_edit').addClass('exito').html("La Categoría <b>"+data.Nombre+"</b> ha sido actualizada con éxito.").show(300).delay(3000).hide(300);
+                        IniciarCategoria();
+                    }
+                }
+            });
+        });
+
     </script>
 @endpush

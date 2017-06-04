@@ -23,8 +23,7 @@
                 <td class="text-left">{{$producto->Modelo}}</td>
                 <td class="text-left">
                     <a title="Editar Producto" alt="Editar Producto" href="javascript:EditarProducto({{$producto->id}});" class="btn btn-warning"><i class="fa fa-edit"></i></a>
-                    <!--<a titile="Actualizar Stock" alt="Actualizar Stock" href="" class="btn btn-success"><i class="fa fa-edit"></i></a>-->
-                    <button id="" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                    <a titile="Actualizar Stock" alt="Actualizar Stock" href="javascript:ActualizarStock({{$producto->id}});" class="btn btn-success"><i class="fa fa-edit"></i></a>
                     <a title="Eliminar Producto" title="Eliminar Producto" href="javascript:EliminarProducto('{{$producto->id}}','{{$producto->Nombre}}');"><button class="btn btn-danger"><i class="fa fa-trash-o"></i></button></a>
                 </td>
             </tr>

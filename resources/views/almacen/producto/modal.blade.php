@@ -142,6 +142,7 @@
             </div>
             {!! Form::open(['id' => 'FormCreateMarca'])!!}
             <div class="modal-body">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -182,6 +183,7 @@
                 <h4 class="modal-title" id="myModalLabel">Registrar Categoría</h4>
             </div>
             {!! Form::open(['id' => 'FormCreateCategoria'])!!}
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
             <div class="modal-body">
                 <div class="box-body">
                     <div class="row">
@@ -224,6 +226,7 @@
                 <h4 class="modal-title" id="myModalLabel">Registrar Modelo</h4>
             </div>
             {!! Form::open(['id' => 'FormCreateModelo'])!!}
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
             <div class="modal-body">
                 <div class="box-body">
                     <div class="row">
@@ -266,20 +269,22 @@
                 <h4 class="modal-title" id="myModalLabel">Actualizar Stock</h4>
             </div>
             {!! Form::open(['id' => 'FormUpdateStock'])!!}
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
             <div class="modal-body">
                 <div class="box-body" style="margin-bottom: 10px;">
                     <div class="row">
+                        <input type="hidden" id="id_producto_act">
                         <div class="col-md-4">
                             <label>Stock Actual:</label>
-                            <input type="text" id="stock_actual" value="200" class="form-control" disabled>
+                            <input type="text" id="stock_actual" class="form-control" disabled>
                         </div>
                         <div class="col-md-4">
                             <label>Stock a Aumentar:</label>
-                            <input type="text" id="stock_aument" value="100" class="form-control">
+                            <input type="text" id="stock_aument" value="0" class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label>Stock Total:</label>
-                            <input type="text" id="stock_total" value="300" class="form-control" disabled>
+                            <input type="text" id="stock_total" class="form-control" disabled>
                         </div>
                     </div>
                 </div>

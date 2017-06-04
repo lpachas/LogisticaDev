@@ -25,12 +25,3 @@ $('#btn_nuevo_modelo').on('click',function(e){
     });
 });
 
-
-$('#btn_upd_stock').on('click',function(e){
-    e.preventDefault();
-    $('#FormUpdateStock')[0].reset();
-    $('#upd_stock_mod').modal({
-        show:true,
-        backdrop:'static'
-    });
-});
