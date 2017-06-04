@@ -127,41 +127,28 @@
                                         <div class="form-group">
                                             <label>Producto:</label>
                                             <input type="text" id="id_producto" class="form-control" name="id_producto">
-
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group" id="cont-marca">
                                             <label>Marca:</label>
-                                            <input type="text" id="id_marca" class="form-control">
-                                            <!--<select id="id_marca" name="id_marca" class="form-control selectpicker" data-live-search="true">
-                                                <option value="">--Seleccione una Marca--</option>
-                                                @foreach($marcas as $m)
-                                                    <option value="{{$m->ID_Marca}}">{{$m->Nombre}}</option>
-                                                @endforeach
-                                            </select>-->
+                                            <input type="hidden" id="id_producto_sel">
+                                            <input type="hidden" id="id_marca">
+                                            <input type="text" id="nom_marca" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Categoría:</label>
-                                            <!--<select id="id_categoria" name="id_categoria" class="form-control selectpicker" data-live-search="true">
-                                                <option value="">--Seleccione una Categoría--</option>
-                                                @foreach($categorias as $c)
-                                                    <option value="{{$c->ID_Categoria}}">{{$c->Nombre}}</option>
-                                                @endforeach
-                                            </select>-->
+                                            <input type="hidden" id="id_categoria">
+                                            <input type="text" id="nom_categoria" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Modelo</label>
-                                            <!--<select id="id_modelo" name="id_modelo" class="form-control selectpicker" data-live-search="true">
-                                                <option value="">--Seleccione un Modelo--</option>
-                                                @foreach($modelos as $m)
-                                                    <option value="{{$m->ID_Modelo}}">{{$m->Nombre}}</option>
-                                                @endforeach
-                                            </select>-->
+                                            <input type="hidden" id="id_modelo">
+                                            <input type="text" id="nom_modelo" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -248,7 +235,15 @@
         minlength:1,
         autoFocus:true,
         select:function(e,ui){
-           $('#id_marca').val(ui.item.id);
+           $('#id_producto_sel').val(ui.item.id);
+           $('#id_marca').val(ui.item.id_marca);
+           $('#nom_marca').val(ui.item.marca);
+           $('#id_categoria').val(ui.item.id_cat);
+           $('#nom_categoria').val(ui.item.cat);
+           $('#id_modelo').val(ui.item.id_modelo);
+           $('#nom_modelo').val(ui.item.modelo);
+           $('#stock').val(ui.item.stock);
+           $('#pventa').val(ui.item.pu_pub);
         }
     });
 

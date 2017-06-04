@@ -236,13 +236,22 @@ class VentaController extends Controller
 
     public function autocomplete(Request $request){
         $term=$request->term;
-        $data= Producto::where('Nombre','LIKE','%'.$term.'%')
-        ->take(50)
-        ->get();
+        $data = DB::table('t_producto as p')
+              ->join('t_marca as ma','p.ID_Marca','=','ma.ID_Marca')
+              ->join('t_modelo as mo','p.ID_Modelo','=','mo.ID_Modelo')
+              ->join('t_categoria as c','p.ID_Categoria','=','c.ID_Categoria')
+              ->select('p.ID_Producto','p.Nombre as Producto','p.PU_Publico','p.PU_Ferreteria','p.Stock','p.Stock_Min','p.ID_Marca',
+              'ma.Nombre as Marca','p.ID_Categoria','c.Nombre as Categoria','p.ID_Modelo','mo.Nombre as Modelo')
+              ->where('p.Nombre','LIKE','%'.$term.'%')
+              ->orderBy('p.ID_Producto','ASC')
+              ->take(50)
+              ->get();
         $results=array();
         foreach ($data as $v)
         {
-            $results[]=['id'=>$v->ID_Producto,'value'=>$v->Nombre];
+            $results[]=['id'=>$v->ID_Producto,'value'=>$v->Producto,'pu_pub'=>$v->PU_Publico,'pu_fer'=>$v->PU_Ferreteria,'stock'=>$v->Stock,
+                'id_marca'=>$v->ID_Marca,'marca'=>$v->Marca,'id_cat'=>$v->ID_Categoria,'cat'=>$v->Categoria,'id_modelo'=>$v->ID_Modelo,
+                'modelo'=>$v->Modelo];
         }
         return response()->json($results);
     }
