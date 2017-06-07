@@ -7,6 +7,7 @@ use SISTEMA_LOGISTICA\Http\Requests;
 use SISTEMA_LOGISTICA\Producto;
 use Illuminate\Support\Facades\Redirect;
 use SISTEMA_LOGISTICA\Http\Requests\ProductoFormRequest;
+use SISTEMA_LOGISTICA\Http\Requests\StockFormRequest;
 use DB;
 
 class ProductoController extends Controller
@@ -151,6 +152,19 @@ class ProductoController extends Controller
             return response()->json(['success'=>'true']);
         }else{
             return response()->json(['success'=>'false']);
+        }
+    }
+
+    public function UpdStock(StockFormRequest $request,$id)
+    {
+        if ($request->ajax())
+        {
+            $Actualizar = DB::select('call PA_ActStockxID(?,?)',array($id,$request->get('stock')));
+            if($Actualizar){
+                return response()->json(['success'=>'true']);
+            }else{
+                return response()->json(['success'=>'true']);
+            }
         }
     }
 }

@@ -73,7 +73,10 @@ Route::get('usuario/getusuariosinfosearch','UsuarioController@getusuariosinfosea
 Route::get('ventas/venta/create/autocomplete',array('as'=>'autocomplete','uses'=>'VentaController@autocomplete'));
 
 Route::get('almacen/producto/{id?}/stock','ProductoController@stock');
+Route::post('almacen/producto/{id?}/UpdStock','ProductoController@UpdStock');
 
+
+Route::get('ventas/venta/pdf/{id?}','VentaController@pdf');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');

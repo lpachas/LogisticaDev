@@ -21,7 +21,8 @@
                 <td width="13%" class="text-left">{{$venta->Numero}}</td>
                 <td width="10%" class="text-left">{{$venta->Fecha}}</td>
                 <td width="11%" class="text-left">
-                    <a href="{{URL::action('VentaController@show', $venta->ID_Doc_Venta)}}" title="Ver Detalle" alt="Ver Detalle" ><button class="btn btn-primary"><i class="fa fa-sign-in"></i></button></a>
+                    <a href="{{ url('ventas/venta/'. $venta->ID_Doc_Venta) }}"><button class="btn btn-primary"><i class="fa fa-sign-in"></i></button></a>
+                    <a href="{{ url('ventas/venta/pdf/'. $venta->ID_Doc_Venta) }}"><button class="btn btn-primary"><i class="fa fa-sign-in"></i></button></a>
                 </td>
             </tr>
         @endforeach

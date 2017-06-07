@@ -4,7 +4,6 @@
     <div class="page-title">
         <div class="title_left">
             <a class="btn alert-success" id="btn_newproducto" style="margin-top: 10px;"><i class="fa fa-plus"></i> Nuevo Producto</a>
-            <a class="btn alert-success" id="btn_upd_stock" style="margin-top: 10px;"><i class="fa fa-plus"></i> Nuevo Producto</a>
         </div>
 
         <div class="title_right">
@@ -271,8 +270,13 @@
         var ActualizarStock = function(id) {
             var route = "{{url('almacen/producto')}}/" + id + "/stock";
             $.get(route, function (data) {
+                $('#FormUpdateStock')[0].reset();
                 $('#id_producto_act').val(data.ID_Producto);
                 $('#stock_actual').val(data.Stock);
+                var stock = parseInt($('#stock_actual').val());
+                var stock_aum = parseInt($('#stock_aument').val());
+                var stock_total = stock+stock_aum;
+                $('#stock_total').val(stock_total);
                 $('#upd_stock_mod').modal({
                     show: true,
                     backdrop: 'static'
@@ -283,24 +287,24 @@
 
         $("#btnAct_Stock").on('click',function(e){
             e.preventDefault();
-            /* aqui me quedo */
-            $('#mensaje_categoria_edit').addClass('text-center').html('<img src="{{asset('img/ajax-loader.gif')}}"> Cargando...');
-            var id = $("#id_categoria").val();
-            var nombre = $("#nombre_edit").val();
-            var descripcion = $("#descripcion_edit").val();
-            var route = "{{url('almacen/categoria')}}/"+id+"";
+            $('#mensaje_stock').addClass('text-center').html('<img src="{{asset('img/ajax-loader.gif')}}"> Cargando...');
+
+            var id = $('#id_producto_act').val();
+            var route = "{{url('almacen/producto')}}/"+id+"/UpdStock";
+            var stock = $('#stock_total').val();
             var token = $("#token").val();
-            var dataString = {'Nombre':nombre,'Descripcion':descripcion};
+            var dataString = {'stock':stock};
             $.ajax({
                 url:route,
                 headers: {'X-CSRF-TOKEN':token},
-                type:'PUT',
+                type:'post',
                 dataType: 'json',
                 data: dataString,
                 success: function(data){
                     if(data.success == 'true') {
-                        $('#mensaje_categoria_edit').addClass('exito').html("La Categoría <b>"+data.Nombre+"</b> ha sido actualizada con éxito.").show(300).delay(3000).hide(300);
-                        IniciarCategoria();
+                        $('#mensaje_stock').addClass('exito').html("El stock se acualizó con éxito").show(300).delay(3000).hide(300);
+
+                        IniciarProducto();
                     }
                 }
             });

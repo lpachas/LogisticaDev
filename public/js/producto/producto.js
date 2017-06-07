@@ -25,3 +25,10 @@ $('#btn_nuevo_modelo').on('click',function(e){
     });
 });
 
+$('#stock_aument').change(StockTotal);
+function StockTotal(){
+    var stock = parseInt($('#stock_actual').val());
+    var stock_aum = parseInt($('#stock_aument').val());
+    var stock_total = stock+stock_aum;
+    $('#stock_total').val(stock_total);
+}
