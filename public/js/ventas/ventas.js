@@ -77,17 +77,6 @@ function CalcularParcial(){
     $('#parcial').val(parcial);
 }
 
-function CargarSelectMarcas(){
-    var url ="create/getMarcas";
-    var search = "";
-    $.ajax({
-        type:'get',
-        url: url,
-    }).done(function(data){
-        var lista = '<div class="form-group"><label>Marca:</label> <select id="id_marca" class="form-control js-example-basic-single select2-hidden-accessible" tabindex="-1" aria-hidden="true"> <option value="">--Seleccione una Marca--</option> <option value="">Marca 1</option> <option value="">Marca 2</option> </select> <span class="select2 select2-container select2-container--default select2-container--focus" dir="ltr" style="width: 235px;"> <span class="selection"> <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-id_marca-container"> <span class="select2-selection__rendered" id="select2-id_marca-container" title="--Seleccione una Marca--">--Seleccione una Marca--</span> <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span> </span> </span> <span class="dropdown-wrapper" aria-hidden="true"></span> </span> </div>';
-        $('#cont-marca').append(lista);
-    });
-}
 
 
 $("#id_documento").change(cargarDatosDoc);
@@ -122,7 +111,7 @@ $('#btn_cliente').on('click',function(e){
 
 $('#id_producto').change(function(e) {
     e.preventDefault();
-    var id = $('#id_producto').val();
+    var id = $('#id_producto_sel').val();
     var route="create/ByProducto/"+id;
     var token = $("input[name=_token]").val();
     $.ajax({
@@ -156,9 +145,11 @@ var cont = 0;
 total=0.00;
 detotal = 0.00;
 totalIGV = 0.00;
+totsubtotal= 0.00;
+totalIGV2= 0.00;
 subtotal=[];
 function agregar(){
-    var idprod = $('#id_producto').val();
+    var idprod = $('#id_producto_sel').val();
     var nomprod = $("#nomprod").val();
     var cant=$("#cantidad").val();
     var desc=$("#descuento").val();
@@ -176,6 +167,12 @@ function agregar(){
         /*console.log(total);*/
         detotal = parseFloat(total).toFixed(2);
         totalIGV = detotal - detotal * parseFloat($('#igv').val());
+
+        totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
+        totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
+
+
+
         var fila = '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" id="stock-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button><button type="button" id="aceptar_prod-'+cont+'" class="btn btn-primary" onclick="aceptar('+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+cont+'" class="btn btn-warning" onclick="editar('+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
         cont++;
         limpiar();
@@ -183,6 +180,9 @@ function agregar(){
         $("#total").val(totalIGV);
         $("#total_sale").val(detotal);
         $("#detalles").append(fila);
+        $("#tot").val(detotal);
+        $("#subt").val(totsubtotal);
+        $('#subigv').val(totalIGV2);
         return detotal;
     }else{
         alert('Error al ingresar el detalle de la venta, por favor, revise los datos del artículo');
@@ -198,6 +198,14 @@ function limpiar(){
     $("#parcial").val("");
     $('#btn_add').attr('disabled','disabled');
     $('#stock').val("");
+    $("#id_producto").val("");
+    $("#id_marca").val("");
+    $("#nom_marca").val("");
+    $("#nom_modelo").val("");
+    $("#nom_categoria").val("");
+    $("#id_modelo").val("");
+    $("#id_categoria").val("");
+    $("#id_producto_sel").val("");
 
 }
 

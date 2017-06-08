@@ -127,6 +127,7 @@
                                         <div class="form-group">
                                             <label>Producto:</label>
                                             <input type="text" id="id_producto" class="form-control" name="id_producto">
+
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -203,8 +204,12 @@
                                     <th width="30%"></th>
                                     <th width="15%"></th>
                                     <th width="15%"><br>IGV</th>
-                                    <th width="15%"><input type="checkbox" id="check"><input type="text" id="igv" value="0.18" class="form-control" disabled></th>
-                                    <th width="15%"><h4 id="total">S/. 0.00 </h4><input type="hidden" name="total_sale" id="total_sale"></th>
+                                    <th width="15%">
+                                        <input type="checkbox" id="check"><input type="text" id="igv" value="0.18" class="form-control" disabled>
+                                    </th>
+                                    <th width="15%">
+                                        <h4 id="total">S/. 0.00 </h4><input type="hidden" name="total_sale" id="total_sale"><input type="hidden" id="subt"><input type="hidden" id="subigv"><input type="hidden" id="tot">
+                                    </th>
                                     </tfoot>
                                     <tbody>
 
