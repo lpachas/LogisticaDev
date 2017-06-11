@@ -170,9 +170,6 @@ function agregar(){
 
         totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
         totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
-
-
-
         var fila = '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" id="stock-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button><button type="button" id="aceptar_prod-'+cont+'" class="btn btn-primary" onclick="aceptar('+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+cont+'" class="btn btn-warning" onclick="editar('+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
         cont++;
         limpiar();
@@ -319,15 +316,12 @@ function ObtenerFechaActual(){
     var dd = hoy.getDate();
     var mm = hoy.getMonth()+1; //hoy es 0!
     var yyyy = hoy.getFullYear();
-
     if(dd<10) {
         dd='0'+dd
     }
-
     if(mm<10) {
         mm='0'+mm
     }
-
     hoy = yyyy+'-'+mm+'-'+dd;
     return hoy;
 }
@@ -335,7 +329,6 @@ function ObtenerFechaActual(){
 function ObtenerNroDias(fecha_inicio,fecha_fin){
     var fechaInicio = new Date(fecha_inicio).getTime();
     var fechaFin    = new Date(fecha_fin).getTime();
-
     var diff = fechaFin - fechaInicio;
     var dif = diff/(1000*60*60*24);
     return dif;

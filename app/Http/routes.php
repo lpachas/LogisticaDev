@@ -70,6 +70,10 @@ Route::get('usuario/getusuariosInfo','UsuarioController@get_usuario_info');
 Route::get('listausuario/{page?}','UsuarioController@listausuarios');
 Route::get('usuario/getusuariosinfosearch','UsuarioController@getusuariosinfosearch');
 
+Route::get('cliente/getclientesInfo','ClienteController@get_cliente_info');
+Route::get('listaclientes/{page?}','ClienteController@listaclientes');
+Route::get('cliente/getclientesinfosearch','ClienteController@getclientesinfosearch');
+
 Route::get('ventas/venta/create/autocomplete',array('as'=>'autocomplete','uses'=>'VentaController@autocomplete'));
 
 Route::get('almacen/producto/{id?}/stock','ProductoController@stock');

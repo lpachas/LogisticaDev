@@ -69,7 +69,7 @@
                             </li>
                             <li><a><i class="fa fa-user"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{url('usuarios/trabajador')}}">Trabajador</a></li>
+                                    <li><a href="{{url('usuarios/trabajador')}}">Trabajadores</a></li>
                                     <li><a href="{{url('usuarios/usuario')}}">Usuarios</a></li>
                                 </ul>
                             </li>
@@ -84,7 +84,8 @@
                             <li><a><i class="fa fa-outdent"></i> Ventas <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{url('ventas/venta')}}">Ventas</a></li>
-                                    <li><a href="#">Clientes</a></li>
+                                    <li><a href="{{url('ventas/cliente')}}">Clientes</a></li>
+
                                 </ul>
                             </li>
                         </ul>
@@ -145,7 +146,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                LOGÍSTICA - 2017 <a href="https://colorlib.com">Colorlib</a>
+                LOGÍSTICA - 2017 <a href="">Colorlib</a>
             </div>
             <div class="clearfix"></div>
         </footer>

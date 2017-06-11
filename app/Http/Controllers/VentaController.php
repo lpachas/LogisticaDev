@@ -146,55 +146,8 @@ class VentaController extends Controller
         $idtipodoc = $request->get('ID_Tipo_Documento');
         $sertipodoc = $request->get('Serie');
         $numtipodoc = $request->get('Numero');
-        $convert = array_map('intval',str_split($numtipodoc));
-
-        if ($convert[6]==9){
-            $convert[6]=0;
-            if($convert[5] < 9)
-            {
-                $convert[5] = $convert[5] + 1;
-            }elseif($convert[5]==9)
-             {
-                $convert[5]=0;
-                if($convert[4] < 9)
-                {
-                    $convert[4]=$convert[4]+1;
-                }elseif ($convert[4]==9)
-                 {
-                   $convert[4]=0;
-                   if($convert[3]<9)
-                   {
-                     $convert[3]=$convert[3]+1;
-                   }elseif ($convert[3]==9)
-                    {
-                     $convert[3]=0;
-                     if($convert[2]<9)
-                     {
-                      $convert[2]=$convert[2]+1;
-                     }elseif ($convert[2]==9)
-                      {
-                        $convert[2]=0;
-                        if($convert[1]<9)
-                        {
-                          $convert[1]=$convert[1]+1;
-                        }elseif ($convert[1]==9)
-                         {
-                           $convert[1]=0;
-                           if($convert[0]<9)
-                           {
-                             $convert[0]=$convert[0]+1;
-                           }elseif ($convert[0]==9){
-
-                           }
-                         }
-                      }
-                    }
-                 }
-             }
-        }else{
-            $convert[6]= $convert[6] + 1;
-        }
-        $boleta=implode("",$convert);
+        /*optimizar codigo con una función*/
+        $boleta=implode("",$this->UpdateBoleta($numtipodoc));
         $tdoc = Tipo_Documento::findOrFail($idtipodoc);
         $tdoc->Serie = $sertipodoc;
         $tdoc->Numero = $boleta;
@@ -276,6 +229,59 @@ class VentaController extends Controller
 
         $pdf = PDF::loadView('ventas.venta.pdf', ["venta"=>$venta,"detalles"=>$detalles]);
         return $pdf->download('invoice.pdf');
+    }
+
+    public function UpdateBoleta($numtipodoc){
+        $convert = array_map('intval',str_split($numtipodoc));
+
+        if ($convert[6]==9){
+            $convert[6]=0;
+            if($convert[5] < 9)
+            {
+                $convert[5] = $convert[5] + 1;
+            }elseif($convert[5]==9)
+            {
+                $convert[5]=0;
+                if($convert[4] < 9)
+                {
+                    $convert[4]=$convert[4]+1;
+                }elseif ($convert[4]==9)
+                {
+                    $convert[4]=0;
+                    if($convert[3]<9)
+                    {
+                        $convert[3]=$convert[3]+1;
+                    }elseif ($convert[3]==9)
+                    {
+                        $convert[3]=0;
+                        if($convert[2]<9)
+                        {
+                            $convert[2]=$convert[2]+1;
+                        }elseif ($convert[2]==9)
+                        {
+                            $convert[2]=0;
+                            if($convert[1]<9)
+                            {
+                                $convert[1]=$convert[1]+1;
+                            }elseif ($convert[1]==9)
+                            {
+                                $convert[1]=0;
+                                if($convert[0]<9)
+                                {
+                                    $convert[0]=$convert[0]+1;
+                                }elseif ($convert[0]==9){
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }else{
+            $convert[6]= $convert[6] + 1;
+        }
+
+        return $convert;
     }
 
 }
