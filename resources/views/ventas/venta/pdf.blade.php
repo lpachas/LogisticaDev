@@ -1,5 +1,16 @@
 <html>
-<head></head>
+<head>
+    <style>
+        #detalles {border-spacing:0;}
+        #detalles thead{background:#ddd;}
+        #detalles tbody{background:#eee;}
+        #detalles tfoot{background:#ddd;}
+        #detalles th{padding:10px;}
+        #detalles tr{padding:10px;}
+        #detalles td{padding:10px;}
+        table{width:80%;}
+    </style>
+</head>
 <body>
 <div class="row">
     <div class="col-md-6">
@@ -62,47 +73,39 @@
             <div class="col-md-12">
                 <h4>Detalle: </h4>
             </div>
-            <div class="col-md-12">
-                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+            <div>
+                <table id="detalles">
                     <thead style="background-color: #A9D0F5">
-                    <th width="52%">Producto</th>
-                    <th width="12%">Cantidad</th>
-                    <th width="12%">Precio Venta</th>
-                    <th width="12%">Descuento</th>
-                    <th width="12%">Subtotal</th>
+                    <tr>
+                        <th width="52%">Producto</th>
+                        <th width="12%">Cantidad</th>
+                        <th width="12%">Precio Venta</th>
+                        <th width="12%">Descuento</th>
+                        <th width="12%">Subtotal</th>
+                    </tr>
                     </thead>
+                    <tbody>
+                    @foreach($detalles as $detalle)
+                        <tr>
+                            <th width="52%">{{$detalle->producto}}</th>
+                            <th width="12%">{{$detalle->Cantidad}}</th>
+                            <th width="12%">{{$detalle->Precio}}</th>
+                            <th width="12%">{{$detalle->Descuento}}</th>
+                            <th width="12%">{{$detalle->Subtotal}}</th>
+                        </tr>
+                    @endforeach
+                    </tbody>
                     <tfoot>
+                    <tr>
                     <th width="52%"></th>
                     <th width="12%"><br>Total</th>
                     <th width="12%"><br>IGV</th>
                     <th width="12%"><input type="text" id="igv" value="{{$venta->IGV}}" class="form-control" disabled></th>
                     <th width="12%"><h4 id="total">{{$venta->Total}}</h4></th>
+                    </tr>
                     </tfoot>
-                    <tbody>
-                    @foreach($detalles as $detalle)
-                        <tr>
-                            <td>{{$detalle->producto}}</td>
-                            <td>{{$detalle->Cantidad}}</td>
-                            <td>{{$detalle->Precio}}</td>
-                            <td>{{$detalle->Descuento}}</td>
-                            <td>{{$detalle->Subtotal}}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
+
                 </table>
-            </div>
-            <div class="col-md-2 col-md-push-8">
-                <div class="text-right" id="export">
-                    <b>Ver Doc.:</b>
-                    <a href="#" title="Ver Doc." alt="Ver Doc."><i class="fa fa-search-plus" aria-hidden="true"></i></a>
-                </div>
-            </div>
-            <div class="col-md-2 col-md-push-8">
-                <div class="text-right" id="export">
-                    <b>Exportar a :</b>
-                    <a href="#" title="Exportar a PDF" alt="Exportar a PDF"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
-                    <a href="#" title="Exportar a Excel" alt="Exportar a Excel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
-                </div>
             </div>
         </div>
     </div>
