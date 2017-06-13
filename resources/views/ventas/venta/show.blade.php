@@ -65,27 +65,41 @@
                 <div class="col-md-12">
                     <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                         <thead style="background-color: #A9D0F5">
-                        <th width="52%">Producto</th>
-                        <th width="12%">Cantidad</th>
-                        <th width="12%">Precio Venta</th>
-                        <th width="12%">Descuento</th>
-                        <th width="12%">Subtotal</th>
+                          <tr>
+                            <th width="52%">Producto</th>
+                            <th width="12%">Cantidad</th>
+                            <th width="12%">Precio Venta</th>
+                            <th width="12%">Descuento</th>
+                            <th width="12%">Subtotal</th>
+                          </tr>
                         </thead>
                         <tfoot>
-                        <th width="52%"></th>
-                        <th width="12%"><br>Total</th>
-                        <th width="12%"><br>IGV</th>
-                        <th width="12%"><input type="text" id="igv" value="{{$venta->IGV}}" class="form-control" disabled></th>
-                        <th width="12%"><h4 id="total">{{$venta->Total}}</h4></th>
+                        <tr>
+                            <th width="52%" rowspan="3"></th>
+                            <th width="12%" class="text-right" rowspan="3"></th>
+                            <th width="12%" class="text-center" rowspan="3"></th>
+                            <th width="12%">Subtotal:</th>
+                            <th width="12%"><h4 id="total"></h4></th>
+                        </tr>
+                        <tr>
+
+                            <th width="12%">Subtotal IGV 18%:</th>
+                            <th width="12%"></th>
+                        </tr>
+                        <tr>
+
+                            <th width="12%">Total:</th>
+                            <th width="12%" class="text-right"><h5 id="total">{{$venta->Total}}</h5></th>
+                        </tr>
                         </tfoot>
                         <tbody>
                         @foreach($detalles as $detalle)
                             <tr>
-                                <td>{{$detalle->producto}}</td>
-                                <td>{{$detalle->Cantidad}}</td>
-                                <td>{{$detalle->Precio}}</td>
-                                <td>{{$detalle->Descuento}}</td>
-                                <td>{{$detalle->Subtotal}}</td>
+                                <td class="text-left">{{$detalle->producto}}</td>
+                                <td class="text-right">{{$detalle->Cantidad}}</td>
+                                <td class="text-right">{{$detalle->Precio}}</td>
+                                <td class="text-right">{{$detalle->Descuento}}</td>
+                                <td class="text-right">{{$detalle->Subtotal}}</td>
                             </tr>
                         @endforeach
                         </tbody>

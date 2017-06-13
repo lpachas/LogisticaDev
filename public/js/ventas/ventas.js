@@ -166,20 +166,17 @@ function agregar(){
         }
         /*console.log(total);*/
         detotal = parseFloat(total).toFixed(2);
-        totalIGV = detotal - detotal * parseFloat($('#igv').val());
 
         totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
         totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
         var fila = '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" id="stock-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button><button type="button" id="aceptar_prod-'+cont+'" class="btn btn-primary" onclick="aceptar('+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+cont+'" class="btn btn-warning" onclick="editar('+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
         cont++;
         limpiar();
-        $("#total").html("S/. "+totalIGV);
-        $("#total").val(totalIGV);
-        $("#total_sale").val(detotal);
+        $("#total_sale").val(parseFloat(detotal).toFixed(2));
         $("#detalles").append(fila);
-        $("#tot").val(detotal);
-        $("#subt").val(totsubtotal);
-        $('#subigv').val(totalIGV2);
+        $("#tot").html("S/. "+parseFloat(detotal).toFixed(2));
+        $("#subt").html("S/."+parseFloat(totsubtotal).toFixed(2));
+        $('#subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
         return detotal;
     }else{
         alert('Error al ingresar el detalle de la venta, por favor, revise los datos del artículo');
@@ -212,8 +209,9 @@ function eliminar(id){
         total = parseFloat(total) - parseFloat(subtotal[id]);
         detotal = parseFloat(total).toFixed(2);
         totalIGV = detotal - detotal * parseFloat($('#igv').val());
-        $("#total").html("S/. " + totalIGV);
-        $("#total").val(totalIGV);
+        $("#tot").html("S/. " + totalIGV);
+        $("#tot").val(totalIGV);
+        $("")
         $("#total_sale").val(detotal);
         $("#fila" + id).remove();
         evaluar();
@@ -243,10 +241,15 @@ function CheckIGV(){
 
 $('#igv').change(CalcularTotalIGV);
 function CalcularTotalIGV(){
-    totalIGV = detotal - detotal * parseFloat($('#igv').val());
-    $("#total").html("S/. " + totalIGV);
-    $("#total").val(totalIGV);
-    $("#total_sale").val(detotal);
+    /*1900.00*/
+    totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
+    /* 1900.00/0.12 = totsubtotal = 1696.43 */
+    totalIGV2=  parseFloat($('#igv').val()) * totsubtotal; /* 0.12 * 1696.43 = 203.57  */
+    $("#subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
+    $("#subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
+    $("#tot").html("S/. " + parseFloat(detotal).toFixed(2));
+    $("#tot").val(parseFloat(detotal).toFixed(2));
+    $("#total_sale").val(parseFloat(detotal).toFixed(2));
 }
 
 
@@ -274,7 +277,6 @@ function editar(id){
 }
 
 function aceptar(id){
-    /*Github */
     $('#editar_prod-'+id).show();
     $('#aceptar_prod-'+id).hide();
     $('#cant-'+id).attr('disabled', 'disabled');
@@ -285,15 +287,18 @@ function aceptar(id){
     var stock=$("#stock-"+id).val();
     var pventa = $("#pventa-"+id).val();
     var totalant = $("#subtotal-"+id).val();
-    var totaltotal = $('#total_sale').val();
-    /*console.log('total_sale='+totaltotal+'-cant='+cant+'-desc='+desc+'-stock='+stock+'-pventa='+pventa+'-totalant='+totalant);*/
 
-    var total_final = parseFloat(totaltotal) - parseFloat(totalant) + parseFloat(parseFloat(parseInt(cant) * pventa - desc).toFixed(2));
-    var totalIGV2 = total_final - total_final * parseFloat($('#igv').val());
-    /*console.log(total_final+'-'+totalIGV2);*/
-    $("#total").html("S/. " + totalIGV2);
-    $("#total").val(totalIGV2);
-    $("#subtotal-"+id).val(parseFloat(parseFloat(parseInt(cant) * pventa - desc).toFixed(2)).toFixed(2));
+    var totaltotal = $('#total_sale').val();
+    var nuevocalculo = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
+
+    var total_final = parseFloat(totaltotal) - parseFloat(totalant) + parseFloat(nuevocalculo);
+
+    totsubtotal = total_final / (1 + parseFloat($('#igv').val()));
+    totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
+    $("#subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
+    $("#subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
+    $("#tot").html("S/. " + parseFloat(total_final).toFixed(2));
+    $("#tot").val(parseFloat(total_final).toFixed(2));
     $("#total_sale").val(total_final);
 }
 

@@ -192,24 +192,34 @@
                             <div class="col-md-12">
                                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                                     <thead style="background-color: #A9D0F5">
-                                    <th width="15%">Opciones</th>
-                                    <th width="30%">Artículo</th>
-                                    <th width="10%">Cantidad</th>
-                                    <th width="15%">Precio Venta</th>
-                                    <th width="15%">Descuento</th>
-                                    <th width="15%">Subtotal</th>
+                                      <tr>
+                                        <th width="15%">Opciones</th>
+                                        <th width="45%">Artículo</th>
+                                        <th width="10%">Cantidad</th>
+                                        <th width="10%">Precio Venta</th>
+                                        <th width="10%">Descuento</th>
+                                        <th width="10%">Subtotal</th>
+                                      </tr>
                                     </thead>
                                     <tfoot>
-                                    <th width="15%"><br>Total</th>
-                                    <th width="30%"></th>
-                                    <th width="15%"></th>
-                                    <th width="15%"><br>IGV</th>
-                                    <th width="15%">
-                                        <input type="checkbox" id="check"><input type="text" id="igv" value="0.18" class="form-control" disabled>
-                                    </th>
-                                    <th width="15%">
-                                        <h4 id="total">S/. 0.00 </h4><input type="hidden" name="total_sale" id="total_sale"><input type="hidden" id="subt"><input type="hidden" id="subigv"><input type="hidden" id="tot">
-                                    </th>
+                                    <tr>
+                                        <th width="15%" rowspan="3"></th>
+                                        <th width="45%" class="text-right" rowspan="3"></th>
+                                        <th width="10%" class="text-center" rowspan="3"></th>
+                                        <th width="10%" class="text-center" rowspan="3">
+                                            <input type="checkbox" id="check"><input type="text" id="igv" value="0.18" class="form-control" disabled>
+                                        </th>
+                                        <th width="10%">Subtotal:</th>
+                                        <th width="10%" class="text-right"><h5 id="subt">S/. 0.00</h5></th>
+                                    </tr>
+                                    <tr>
+                                        <th width="10%">Subtotal IGV 18%:</th>
+                                        <th width="10%" class="text-right"><h5 id="subigv">S/. 0.00</h5></th>
+                                    </tr>
+                                    <tr>
+                                        <th width="10%">Total:</th>
+                                        <th width="10%" class="text-right"><h5 id="tot">S/. 0.00</h5><input type="hidden" id="total_sale"></th>
+                                    </tr>
                                     </tfoot>
                                     <tbody>
 
