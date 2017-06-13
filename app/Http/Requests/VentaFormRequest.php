@@ -32,6 +32,8 @@ class VentaFormRequest extends Request
             'ID_Forma_Pago'=>'required|max:11',
             'Nro_Dias'=>'required',
             'IGV'=>'required',
+            'Subtotal'=>'required',
+            'SubIGV'=>'required',
             'Total'=>'required',
         ];
     }

@@ -109,6 +109,8 @@ class VentaController extends Controller
         $venta->FechaVenta_Credito = $request->get('FechaVenta_Credito');
         $venta->Nro_Dias=$request->get('Nro_Dias');
         $venta->IGV = $request->get('IGV');
+        $venta->Subtotal = $request->get('Subtotal');
+        $venta->SubIGV = $request->get('SubIGV');
         $venta->Total = $request->get('Total');
         $venta->save();
 

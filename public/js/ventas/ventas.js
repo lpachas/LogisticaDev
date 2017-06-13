@@ -175,8 +175,11 @@ function agregar(){
         $("#total_sale").val(parseFloat(detotal).toFixed(2));
         $("#detalles").append(fila);
         $("#tot").html("S/. "+parseFloat(detotal).toFixed(2));
+        $("#tot").val(parseFloat(detotal).toFixed(2));
         $("#subt").html("S/."+parseFloat(totsubtotal).toFixed(2));
+        $("#subt").val(parseFloat(totsubtotal).toFixed(2));
         $('#subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
+        $("#subigv").val(parseFloat(totalIGV2).toFixed(2));
         return detotal;
     }else{
         alert('Error al ingresar el detalle de la venta, por favor, revise los datos del artículo');
@@ -206,13 +209,18 @@ function limpiar(){
 function eliminar(id){
     $.alertable.confirm("¿Está seguro de elminar este producto de la lista?").then(function() {
         ReducirClicks();
-        total = parseFloat(total) - parseFloat(subtotal[id]);
+        total = parseFloat(detotal) - parseFloat(subtotal[id]);
         detotal = parseFloat(total).toFixed(2);
-        totalIGV = detotal - detotal * parseFloat($('#igv').val());
-        $("#tot").html("S/. " + totalIGV);
-        $("#tot").val(totalIGV);
-        $("")
-        $("#total_sale").val(detotal);
+        totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
+        totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
+
+        $("#total_sale").val(parseFloat(detotal).toFixed(2));
+        $("#tot").html("S/. "+parseFloat(detotal).toFixed(2));
+        $("#tot").val(parseFloat(detotal).toFixed(2));
+        $("#subt").html("S/."+parseFloat(totsubtotal).toFixed(2));
+        $("#subt").val(parseFloat(totsubtotal).toFixed(2));
+        $('#subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
+        $("#subigv").val(parseFloat(totalIGV2).toFixed(2));
         $("#fila" + id).remove();
         evaluar();
         return detotal;
@@ -246,7 +254,9 @@ function CalcularTotalIGV(){
     /* 1900.00/0.12 = totsubtotal = 1696.43 */
     totalIGV2=  parseFloat($('#igv').val()) * totsubtotal; /* 0.12 * 1696.43 = 203.57  */
     $("#subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
+    $("#subigv").val(parseFloat(totalIGV2).toFixed(2));
     $("#subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
+    $("#subt").val(parseFloat(totsubtotal).toFixed(2));
     $("#tot").html("S/. " + parseFloat(detotal).toFixed(2));
     $("#tot").val(parseFloat(detotal).toFixed(2));
     $("#total_sale").val(parseFloat(detotal).toFixed(2));
@@ -289,14 +299,17 @@ function aceptar(id){
     var totalant = $("#subtotal-"+id).val();
 
     var totaltotal = $('#total_sale').val();
-    var nuevocalculo = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
 
+    var nuevocalculo = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
+    $("#subtotal-"+id).val(parseFloat(nuevocalculo).toFixed(2));
     var total_final = parseFloat(totaltotal) - parseFloat(totalant) + parseFloat(nuevocalculo);
 
     totsubtotal = total_final / (1 + parseFloat($('#igv').val()));
     totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
     $("#subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
+    $("#subigv").val(parseFloat(totalIGV2).toFixed(2));
     $("#subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
+    $("#subt").val(parseFloat(totsubtotal).toFixed(2));
     $("#tot").html("S/. " + parseFloat(total_final).toFixed(2));
     $("#tot").val(parseFloat(total_final).toFixed(2));
     $("#total_sale").val(total_final);

@@ -21,6 +21,8 @@ class Venta extends Model
         'FechaVenta_Credito',
         'Nro_Dias',
         'IGV',
+        'Subtotal',
+        'SubIGV',
         'Total'
     ];
 

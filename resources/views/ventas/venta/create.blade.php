@@ -325,7 +325,9 @@
         var idforma = $('#id_forma_pago').val();
         var idtipoventa = $('#id_tipo_venta').val();
         var igv = $('#igv').val();
-        var total=$('#total').val();
+        var subtotal = $('#subt').val();
+        var subigv = $('#subigv').val();
+        var total=$('#tot').val();
         ObtenerFechaActual();
         var fecha_actual = ObtenerFechaActual();
         if(idtipoventa==1){
@@ -351,7 +353,7 @@
         var datos = {"ID_Cliente":idclient,"ID_Usuario":idusuario,"ID_Tipo_Documento":idtipodoc,
             "Serie":serie,"Numero":numero,"FechaVenta_Actual":fecha_actual,"ID_Forma_Pago":idforma,
             "FechaVenta_Credito":fechacredito,"Nro_Dias":nrodias,
-            "IGV":igv,"Total":total,"Detalles":arrayDetalles};
+            "IGV":igv,"Subtotal":subtotal,"SubIGV":subigv,"Total":total,"Detalles":arrayDetalles};
 
         var token = $("input[name=_token]").val();
         var route = "{{route('ventas.venta.store')}}";
