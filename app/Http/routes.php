@@ -81,6 +81,7 @@ Route::post('almacen/producto/{id?}/UpdStock','ProductoController@UpdStock');
 
 
 Route::get('ventas/venta/pdf/{id?}','VentaController@pdf');
+Route::get('ventas/venta/showpdf/{id?}','VentaController@showpdf');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');

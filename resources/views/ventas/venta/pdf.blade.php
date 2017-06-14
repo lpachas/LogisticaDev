@@ -1,4 +1,5 @@
 <html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <head>
     <style>
         #detalles {border-spacing:0;}

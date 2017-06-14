@@ -177,7 +177,7 @@ class VentaController extends Controller
             ->join('users as u','v.ID_Usuario','=','u.id')
             ->join('t_tipo_documento as d','v.ID_Tipo_Documento','=','d.ID_Tipo_Documento')
             ->join('t_forma_pago as p','v.ID_Forma_Pago','=','p.ID_Forma_Pago')
-            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','d.Serie','d.Numero','v.FechaVenta_Actual as Fecha','p.ID_Forma_Pago','p.Nombre as Forma','v.Estado','v.FechaVenta_Credito as Fecha_Credito','v.Nro_Dias','v.IGV','v.Total')
+            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','v.Serie','v.Numero','v.FechaVenta_Actual as Fecha','p.ID_Forma_Pago','p.Nombre as Forma','v.Estado','v.FechaVenta_Credito as Fecha_Credito','v.Nro_Dias','v.IGV','v.Total','v.Subtotal','v.SubIGV')
             ->where('v.ID_Doc_Venta','=',$id)
             ->first();
 
@@ -232,6 +232,30 @@ class VentaController extends Controller
         $pdf = PDF::loadView('ventas.venta.pdf', ["venta"=>$venta,"detalles"=>$detalles]);
         return $pdf->download('invoice.pdf');
     }
+
+    public function showpdf($id){
+        $venta = DB::table('t_doc_venta as v')
+            ->join('t_cliente as c','v.ID_Cliente','=','c.ID_Cliente')
+            ->join('users as u','v.ID_Usuario','=','u.id')
+            ->join('t_tipo_documento as d','v.ID_Tipo_Documento','=','d.ID_Tipo_Documento')
+            ->join('t_forma_pago as p','v.ID_Forma_Pago','=','p.ID_Forma_Pago')
+            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','d.Serie','d.Numero','v.FechaVenta_Actual as Fecha','p.ID_Forma_Pago','p.Nombre as Forma','v.Estado','v.FechaVenta_Credito as Fecha_Credito','v.Nro_Dias','v.IGV','v.Total')
+            ->where('v.ID_Doc_Venta','=',$id)
+            ->first();
+
+        $detalles = DB::table('t_detalle_doc_venta as d')
+            ->join('t_producto as p','d.ID_Producto','=','p.ID_Producto')
+            ->select('p.Nombre as producto','d.Cantidad','d.Precio','d.Descuento','d.Subtotal')
+            ->where('d.ID_Doc_Venta','=',$id)
+            ->get();
+
+        $view =  \View::make('ventas.venta.showpdf', ["venta"=>$venta,"detalles"=>$detalles]);
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('invoice');
+
+    }
+
 
     public function UpdateBoleta($numtipodoc){
         $convert = array_map('intval',str_split($numtipodoc));

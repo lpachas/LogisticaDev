@@ -79,17 +79,17 @@
                             <th width="12%" class="text-right" rowspan="3"></th>
                             <th width="12%" class="text-center" rowspan="3"></th>
                             <th width="12%">Subtotal:</th>
-                            <th width="12%"><h4 id="total"></h4></th>
+                            <th width="12%" class="text-right">S/. {{$venta->Subtotal}}</th>
                         </tr>
                         <tr>
 
-                            <th width="12%">Subtotal IGV 18%:</th>
-                            <th width="12%"></th>
+                            <th width="12%" >Subtotal IGV 18%:</th>
+                            <th width="12%" class="text-right">S/. {{$venta->SubIGV}}</th>
                         </tr>
                         <tr>
 
                             <th width="12%">Total:</th>
-                            <th width="12%" class="text-right"><h5 id="total">{{$venta->Total}}</h5></th>
+                            <th width="12%" class="text-right">S/. {{$venta->Total}}</th>
                         </tr>
                         </tfoot>
                         <tbody>

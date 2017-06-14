@@ -15,14 +15,15 @@
         @foreach($ventas as $venta)
             <tr class="id{{$venta->ID_Doc_Venta}}">
                 <td width="25%" class="text-left">{{$venta->Cliente}}</td>
-                <td width="15%" class="text-left">{{$venta->Usuario}}</td>
-                <td width="13%" class="text-left">{{$venta->Documento}}</td>
-                <td width="13%" class="text-left">{{$venta->Serie}}</td>
-                <td width="13%" class="text-left">{{$venta->Numero}}</td>
+                <td width="10%" class="text-left">{{$venta->Usuario}}</td>
+                <td width="10%" class="text-left">{{$venta->Documento}}</td>
+                <td width="10%" class="text-left">{{$venta->Serie}}</td>
+                <td width="10%" class="text-left">{{$venta->Numero}}</td>
                 <td width="10%" class="text-left">{{$venta->Fecha}}</td>
-                <td width="11%" class="text-left">
+                <td width="25%" class="text-left">
                     <a href="{{ url('ventas/venta/'. $venta->ID_Doc_Venta) }}"><button class="btn btn-primary"><i class="fa fa-sign-in"></i></button></a>
-                    <a href="{{ url('ventas/venta/pdf/'. $venta->ID_Doc_Venta) }}"><button class="btn btn-primary"><i class="fa fa-sign-in"></i></button></a>
+                    <a href="{{ url('ventas/venta/showpdf/'. $venta->ID_Doc_Venta) }}" target="_blank"><button class="btn btn-danger"><i class="fa fa-file-pdf-o"></i></button></a>
+                    <a href="{{ url('ventas/venta/pdf/'. $venta->ID_Doc_Venta) }}"><button class="btn btn-success"><i class="fa fa-download"></i></button></a>
                 </td>
             </tr>
         @endforeach

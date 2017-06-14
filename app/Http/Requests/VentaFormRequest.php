@@ -27,7 +27,7 @@ class VentaFormRequest extends Request
             'ID_Cliente'=>'required',
             'ID_Usuario'=>'required',
             'ID_Tipo_Documento'=>'required',
-            'Serie'=>'required|max:3',
+            'Serie'=>'max:4',
             'Numero'=>'required|max:7',
             'ID_Forma_Pago'=>'required|max:11',
             'Nro_Dias'=>'required',
