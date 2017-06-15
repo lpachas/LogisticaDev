@@ -158,7 +158,8 @@ return [
         SISTEMA_LOGISTICA\Providers\RouteServiceProvider::class,
 
         /*PDF providers*/
-        Barryvdh\DomPDF\ServiceProvider::class,
+        /*Barryvdh\DomPDF\ServiceProvider::class,*/
+        Barryvdh\Snappy\ServiceProvider::class,
 
     ],
 
@@ -207,7 +208,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class
+        /*'PDF' => Barryvdh\DomPDF\Facade::class,*/
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'Image' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ],
 
 ];

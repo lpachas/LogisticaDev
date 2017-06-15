@@ -233,6 +233,8 @@ class VentaController extends Controller
         return $pdf->download('invoice.pdf');
     }
 
+
+
     public function showpdf($id){
         $venta = DB::table('t_doc_venta as v')
             ->join('t_cliente as c','v.ID_Cliente','=','c.ID_Cliente')
