@@ -169,12 +169,19 @@ function ActivarAdd(){
 
 
 var cont = 0;
+/* variables de factura*/
 total=0.00;
 detotal = 0.00;
 totalIGV = 0.00;
 totsubtotal= 0.00;
 totalIGV2= 0.00;
 subtotal=[];
+/* variables de boleta*/
+total2 = 0.00;
+detotal2 = 0.00
+totalsubtotal2= 0.00;
+subtotalbol=[];
+
 function agregar(){
     var idprod = $('#id_producto_sel').val();
     var nomprod = $("#nomprod").val();
@@ -187,21 +194,21 @@ function agregar(){
 
     if(idprod !="" && nomprod != "" && cant != "" && desc != "" && pventa != "" && stock != "")
     {
-        subtotal[cont] = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
-        if($('#total_sale').val() == ""){
-            total= parseFloat(total) + parseFloat(subtotal[cont]); /* Me quedo aquí :) 7:07 am */
-        }else{
-            total = parseFloat($('#total_sale').val()) + parseFloat(subtotal[cont]);
-        }
-        /*console.log(total);*/
-        detotal = parseFloat(total).toFixed(2);
-
-        totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
-        totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
-        var fila = '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" id="stock-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+iddoc+','+cont+');">X</button><button type="button" id="aceptar_prod-'+cont+'" class="btn btn-primary" onclick="aceptar('+iddoc+','+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+cont+'" class="btn btn-warning" onclick="editar('+iddoc+','+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
-        cont++;
-        limpiar();
         if(iddoc == 4){
+            subtotal[cont] = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
+
+            if($('#group-factura #total_sale').val() == ""){
+                total= parseFloat(total) + parseFloat(subtotal[cont]);
+            }else{
+                total = parseFloat($('#group-factura #total_sale').val()) + parseFloat(subtotal[cont]);
+            }
+            detotal = parseFloat(total).toFixed(2);
+
+            totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
+            totalIGV2=  parseFloat($('#group-factura #igv').val()) * totsubtotal;
+            var fila = '<tr class="selected" id="fila-'+iddoc+'-'+cont+'"><td><input type="hidden" id="stock-'+iddoc+'-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+iddoc+','+cont+');">X</button><button type="button" id="aceptar_prod-'+iddoc+'-'+cont+'" class="btn btn-primary" onclick="aceptar('+iddoc+','+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+iddoc+'-'+cont+'" class="btn btn-warning" onclick="editar('+iddoc+','+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+iddoc+'-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+iddoc+'-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+iddoc+'-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+iddoc+'-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+iddoc+'-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
+            cont++;
+            limpiar();
             $("#group-factura #total_sale").val(parseFloat(detotal).toFixed(2));
             $("#group-factura #detalles").append(fila);
             $("#group-factura #tot").html("S/. "+parseFloat(detotal).toFixed(2));
@@ -210,14 +217,28 @@ function agregar(){
             $("#group-factura #subt").val(parseFloat(totsubtotal).toFixed(2));
             $('#group-factura #subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
             $("#group-factura #subigv").val(parseFloat(totalIGV2).toFixed(2));
+            return detotal;
+            console.log(detotal);
         }
         if(iddoc==1){
-            $("#group-boleta #total_sale").val(parseFloat(detotal).toFixed(2));
+            subtotalbol[cont] = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
+            if($('#group-boleta #total_sale').val() == ""){
+                total2= parseFloat(total2) + parseFloat(subtotalbol[cont]);
+            }else{
+                total2 = parseFloat($('#group-boleta #total_sale').val()) + parseFloat(subtotalbol[cont]);
+            }
+            detotal2 = parseFloat(total2).toFixed(2);
+            var fila = '<tr class="selected" id="fila-'+iddoc+'-'+cont+'"><td><input type="hidden" id="stock-'+iddoc+'-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+iddoc+','+cont+');">X</button><button type="button" id="aceptar_prod-'+iddoc+'-'+cont+'" class="btn btn-primary" onclick="aceptar('+iddoc+','+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+iddoc+'-'+cont+'" class="btn btn-warning" onclick="editar('+iddoc+','+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+iddoc+'-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+iddoc+'-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+iddoc+'-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+iddoc+'-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+iddoc+'-'+cont+'" value="'+subtotalbol[cont]+'" disabled></td></tr>';
+            cont++;
+            limpiar();
+            $("#group-boleta #total_sale").val(parseFloat(detotal2).toFixed(2));
             $("#group-boleta #detalles").append(fila);
-            $("#group-boleta #tot").html("S/. "+parseFloat(detotal).toFixed(2));
-            $("#group-boleta #tot").val(parseFloat(detotal).toFixed(2));
+            $("#group-boleta #tot").html("S/. "+parseFloat(detotal2).toFixed(2));
+            $("#group-boleta #tot").val(parseFloat(detotal2).toFixed(2));
+            return detotal2;
+            console.log(detotal2);
         }
-        return detotal;
+
     }else{
         alert('Error al ingresar el detalle de la venta, por favor, revise los datos del artículo');
     }
@@ -246,11 +267,11 @@ function limpiar(){
 function eliminar(iddoc,id){
     $.alertable.confirm("¿Está seguro de elminar este producto de la lista?").then(function() {
         ReducirClicks();
-        total = parseFloat(detotal) - parseFloat(subtotal[id]);
-        detotal = parseFloat(total).toFixed(2);
-        totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
-        totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
         if(iddoc==4){
+            total = parseFloat(detotal) - parseFloat(subtotal[id]);
+            detotal = parseFloat(total).toFixed(2);
+            totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
+            totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
             $("#group-factura #total_sale").val(parseFloat(detotal).toFixed(2));
             $("#group-factura #tot").html("S/. "+parseFloat(detotal).toFixed(2));
             $("#group-factura #tot").val(parseFloat(detotal).toFixed(2));
@@ -258,10 +279,21 @@ function eliminar(iddoc,id){
             $("#group-factura #subt").val(parseFloat(totsubtotal).toFixed(2));
             $('#group-factura #subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
             $("#group-factura #subigv").val(parseFloat(totalIGV2).toFixed(2));
-            $("#group-factura #fila"+ id).remove();
+            $("#group-factura #fila-"+iddoc+"-"+ id).remove();
             evaluar();
+            return detotal;
         }
-        return detotal;
+        if(iddoc==1){
+            total2 = parseFloat(detotal2) - parseFloat(subtotalbol[id]);
+            detotal2 = parseFloat(total2).toFixed(2);
+            $("#group-boleta #tot").html("S/. "+parseFloat(detotal2).toFixed(2));
+            $("#group-boleta #tot").val(parseFloat(detotal2).toFixed(2));
+            $("#group-boleta #total_sale").val(parseFloat(detotal2).toFixed(2));
+            $("#group-boleta #fila-"+iddoc+"-"+ id).remove();
+            evaluar();
+            return detotal2;
+        }
+
     });
 }
 
@@ -288,9 +320,9 @@ function CheckIGV(){
 $('#igv').change(CalcularTotalIGV);
 function CalcularTotalIGV(){
     /*1900.00*/
-    totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
+    totsubtotal = detotal / (1 + parseFloat($('#group-factura #igv').val()));
     /* 1900.00/0.12 = totsubtotal = 1696.43 */
-    totalIGV2=  parseFloat($('#igv').val()) * totsubtotal; /* 0.12 * 1696.43 = 203.57  */
+    totalIGV2=  parseFloat($('#group-factura #igv').val()) * totsubtotal; /* 0.12 * 1696.43 = 203.57  */
     $("#group-factura #subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
     $("#group-factura #subigv").val(parseFloat(totalIGV2).toFixed(2));
     $("#group-factura #subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
@@ -302,55 +334,67 @@ function CalcularTotalIGV(){
 
 
 function editar(iddoc,id){
-    $('#editar_prod-'+id).hide();
-    $('#aceptar_prod-'+id).show();
-    $('#cant-'+id).removeAttr('disabled');
-    $('#pventa-'+id).removeAttr('disabled');
-    $('#desc-'+id).removeAttr('disabled');
-
-    $('#cant-'+id).change(ValidarCantidad_NewStock);
-    function ValidarCantidad_NewStock(){
-        var cant = $('#cant-'+id).val();
-        var stock = parseInt($('#stock-'+id).val());
-        if(stock < cant){
-            swal({
-                title: "Error!",
-                text: "La cantidad debe ser menor que el stock",
-                type: "error",
-                confirmButtonText: "OK"
-            });
+    if(iddoc!=""){
+        $('#editar_prod-'+iddoc+'-'+id).hide();
+        $('#aceptar_prod-'+iddoc+'-'+id).show();
+        $('#cant-'+iddoc+'-'+id).removeAttr('disabled');
+        $('#pventa-'+iddoc+'-'+id).removeAttr('disabled');
+        $('#desc-'+iddoc+'-'+id).removeAttr('disabled');
+        $('#cant-'+iddoc+'-'+id).change(ValidarCantidad_NewStock);
+        function ValidarCantidad_NewStock(){
+            var cant = $('#cant-'+iddoc+'-'+id).val();
+            var stock = parseInt($('#stock-'+iddoc+'-'+id).val());
+            if(stock < cant){
+                swal({
+                    title: "Error!",
+                    text: "La cantidad debe ser menor que el stock",
+                    type: "error",
+                    confirmButtonText: "OK"
+                });
+            }
         }
     }
 
+
 }
 
-function aceptar(id){
-    $('#editar_prod-'+id).show();
-    $('#aceptar_prod-'+id).hide();
-    $('#cant-'+id).attr('disabled', 'disabled');
-    $('#pventa-'+id).attr('disabled','disabled');
-    $('#desc-'+id).attr('disabled','disabled');
-    var cant=$("#cant-"+id).val();
-    var desc=$("#desc-"+id).val();
-    var stock=$("#stock-"+id).val();
-    var pventa = $("#pventa-"+id).val();
-    var totalant = $("#subtotal-"+id).val();
+function aceptar(iddoc,id){
+    $('#editar_prod-'+iddoc+'-'+id).show();
+    $('#aceptar_prod-'+iddoc+'-'+id).hide();
+    $('#cant-'+iddoc+'-'+id).attr('disabled', 'disabled');
+    $('#pventa-'+iddoc+'-'+id).attr('disabled','disabled');
+    $('#desc-'+iddoc+'-'+id).attr('disabled','disabled');
+    var cant=$('#cant-'+iddoc+'-'+id).val();
+    var desc=$('#desc-'+iddoc+'-'+id).val();
+    var stock=$('#stock-'+iddoc+'-'+id).val();
+    var pventa = $('#pventa-'+iddoc+'-'+id).val();
+    var totalant = $('#subtotal-'+iddoc+'-'+id).val();
+    if(iddoc==4){
+        var totaltotal = $('#group-factura #total_sale').val();
+        var nuevocalculo = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
+        $('#subtotal-'+iddoc+'-'+id).val(parseFloat(nuevocalculo).toFixed(2));
+        var total_final = parseFloat(totaltotal) - parseFloat(totalant) + parseFloat(nuevocalculo);
+        totsubtotal = total_final / (1 + parseFloat($('#group-factura #igv').val()));
+        totalIGV2=  parseFloat($('#group-factura #igv').val()) * totsubtotal;
+        $("#group-factura #subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
+        $("#group-factura #subigv").val(parseFloat(totalIGV2).toFixed(2));
+        $("#group-factura #subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
+        $("#group-factura #subt").val(parseFloat(totsubtotal).toFixed(2));
+        $("#group-factura #tot").html("S/. " + parseFloat(total_final).toFixed(2));
+        $("#group-factura #tot").val(parseFloat(total_final).toFixed(2));
+        $("#group-factura #total_sale").val(total_final);
+    }
+    if(iddoc==1){
+        var totaltotal = $('#group-boleta #total_sale').val();
+        var nuevocalculo = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
+        $('#subtotal-'+iddoc+'-'+id).val(parseFloat(nuevocalculo).toFixed(2));
+        var total_final = parseFloat(totaltotal) - parseFloat(totalant) + parseFloat(nuevocalculo);
 
-    var totaltotal = $('#total_sale').val();
 
-    var nuevocalculo = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
-    $("#subtotal-"+id).val(parseFloat(nuevocalculo).toFixed(2));
-    var total_final = parseFloat(totaltotal) - parseFloat(totalant) + parseFloat(nuevocalculo);
-
-    totsubtotal = total_final / (1 + parseFloat($('#igv').val()));
-    totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
-    $("#subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
-    $("#subigv").val(parseFloat(totalIGV2).toFixed(2));
-    $("#subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
-    $("#subt").val(parseFloat(totsubtotal).toFixed(2));
-    $("#tot").html("S/. " + parseFloat(total_final).toFixed(2));
-    $("#tot").val(parseFloat(total_final).toFixed(2));
-    $("#total_sale").val(total_final);
+        $("#group-boleta #tot").html("S/. "+parseFloat(total_final).toFixed(2));
+        $("#group-boleta #tot").val(parseFloat(total_final).toFixed(2));
+        $("#group-boleta #total_sale").val(total_final);
+    }
 }
 
 
@@ -399,7 +443,7 @@ function LimpiarFactura(){
     $("#group-factura #subt").val("");
     $('#group-factura #subigv').html("");
     $("#group-factura #subigv").val("");
-    detotal = 0.00;
+
 }
 
 function LimpiarBoleta(){
@@ -407,5 +451,5 @@ function LimpiarBoleta(){
     $("#group-boleta #total_sale").val("");
     $("#group-boleta #tot").html("");
     $("#group-boleta #tot").val("");
-    detotal = 0.00;
+
 }
