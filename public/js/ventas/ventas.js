@@ -10,13 +10,31 @@ $(document).ready(function(){
         FechaxTipo(id);
     });
     DetallesDocumentoDisabled();
+    $.datepicker.regional['es'] = {
+        closeText: 'Cerrar',
+        prevText: '< Ant',
+        nextText: 'Sig >',
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+        weekHeader: 'Sm',
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: ''
+    };
+    $.datepicker.setDefaults($.datepicker.regional['es']);
 });
 function FechaxTipo(id){
     var date = new Date();
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     if(id==1 || id==""){
         $('#fecha_venta').attr('disabled', 'disabled');
-        $('#fecha').datepicker({
+        $('#fecha_venta').datepicker({
             startDate: today,
             format: "yyyy-mm-dd",
             language: "es",
@@ -24,17 +42,12 @@ function FechaxTipo(id){
             autoclose:"true",
             todayHighlight: true
         });
-        $('#fecha').datepicker('setDate', today);
+        $('#fecha_venta').datepicker('setDate', today);
     }else{
         $('#fecha_venta').removeAttr('disabled');
-        $('#fecha').datepicker({
-            startDate: new Date(),
-            format: "yyyy-mm-dd",
-            language: "es",
-            orientation: "bottom auto",
-            autoclose:"true",
-            todayHighlight: true
-        });
+        $('#fecha_venta').datepicker(
+            "option", "showAnim", $( this ).val()
+        );
     }
 }
 
@@ -83,12 +96,26 @@ $("#id_documento").change(cargarDatosDoc);
 
 function cargarDatosDoc()
 {
-    if($('#id_documento').val() != ""){
+    var id = $('#id_documento').val();
+
+    if(id != ""){
         $('#serie').removeAttr('disabled');
         $('#numero').removeAttr('disabled');
         datosTipoDoc = document.getElementById('id_documento').value.split('_');
         $("#numero").val(datosTipoDoc[2]);
         $("#serie").val(datosTipoDoc[1]);
+        var id2=datosTipoDoc[0];
+        if (id2==4){
+            $('#group-factura').show();
+            $('#group-boleta').show();
+            LimpiarBoleta();
+        }else if(id2==1) {
+            $('#group-factura').show();
+            $('#group-boleta').show();
+            LimpiarFactura();
+        }
+
+
     }else{
         $('#serie').attr('disabled', 'disabled');
         $('#numero').attr('disabled', 'disabled');
@@ -155,6 +182,8 @@ function agregar(){
     var desc=$("#descuento").val();
     var stock=$("#stock").val();
     var pventa = $("#pventa").val();
+    var datosTipoDoc = document.getElementById('id_documento').value.split('_');
+    var iddoc = datosTipoDoc[0];
 
     if(idprod !="" && nomprod != "" && cant != "" && desc != "" && pventa != "" && stock != "")
     {
@@ -169,17 +198,25 @@ function agregar(){
 
         totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
         totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
-        var fila = '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" id="stock-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button><button type="button" id="aceptar_prod-'+cont+'" class="btn btn-primary" onclick="aceptar('+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+cont+'" class="btn btn-warning" onclick="editar('+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
+        var fila = '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" id="stock-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+iddoc+','+cont+');">X</button><button type="button" id="aceptar_prod-'+cont+'" class="btn btn-primary" onclick="aceptar('+iddoc+','+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+cont+'" class="btn btn-warning" onclick="editar('+iddoc+','+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
         cont++;
         limpiar();
-        $("#total_sale").val(parseFloat(detotal).toFixed(2));
-        $("#detalles").append(fila);
-        $("#tot").html("S/. "+parseFloat(detotal).toFixed(2));
-        $("#tot").val(parseFloat(detotal).toFixed(2));
-        $("#subt").html("S/."+parseFloat(totsubtotal).toFixed(2));
-        $("#subt").val(parseFloat(totsubtotal).toFixed(2));
-        $('#subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
-        $("#subigv").val(parseFloat(totalIGV2).toFixed(2));
+        if(iddoc == 4){
+            $("#group-factura #total_sale").val(parseFloat(detotal).toFixed(2));
+            $("#group-factura #detalles").append(fila);
+            $("#group-factura #tot").html("S/. "+parseFloat(detotal).toFixed(2));
+            $("#group-factura #tot").val(parseFloat(detotal).toFixed(2));
+            $("#group-factura #subt").html("S/."+parseFloat(totsubtotal).toFixed(2));
+            $("#group-factura #subt").val(parseFloat(totsubtotal).toFixed(2));
+            $('#group-factura #subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
+            $("#group-factura #subigv").val(parseFloat(totalIGV2).toFixed(2));
+        }
+        if(iddoc==1){
+            $("#group-boleta #total_sale").val(parseFloat(detotal).toFixed(2));
+            $("#group-boleta #detalles").append(fila);
+            $("#group-boleta #tot").html("S/. "+parseFloat(detotal).toFixed(2));
+            $("#group-boleta #tot").val(parseFloat(detotal).toFixed(2));
+        }
         return detotal;
     }else{
         alert('Error al ingresar el detalle de la venta, por favor, revise los datos del artículo');
@@ -206,23 +243,24 @@ function limpiar(){
 
 }
 
-function eliminar(id){
+function eliminar(iddoc,id){
     $.alertable.confirm("¿Está seguro de elminar este producto de la lista?").then(function() {
         ReducirClicks();
         total = parseFloat(detotal) - parseFloat(subtotal[id]);
         detotal = parseFloat(total).toFixed(2);
         totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
         totalIGV2=  parseFloat($('#igv').val()) * totsubtotal;
-
-        $("#total_sale").val(parseFloat(detotal).toFixed(2));
-        $("#tot").html("S/. "+parseFloat(detotal).toFixed(2));
-        $("#tot").val(parseFloat(detotal).toFixed(2));
-        $("#subt").html("S/."+parseFloat(totsubtotal).toFixed(2));
-        $("#subt").val(parseFloat(totsubtotal).toFixed(2));
-        $('#subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
-        $("#subigv").val(parseFloat(totalIGV2).toFixed(2));
-        $("#fila" + id).remove();
-        evaluar();
+        if(iddoc==4){
+            $("#group-factura #total_sale").val(parseFloat(detotal).toFixed(2));
+            $("#group-factura #tot").html("S/. "+parseFloat(detotal).toFixed(2));
+            $("#group-factura #tot").val(parseFloat(detotal).toFixed(2));
+            $("#group-factura #subt").html("S/."+parseFloat(totsubtotal).toFixed(2));
+            $("#group-factura #subt").val(parseFloat(totsubtotal).toFixed(2));
+            $('#group-factura #subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
+            $("#group-factura #subigv").val(parseFloat(totalIGV2).toFixed(2));
+            $("#group-factura #fila"+ id).remove();
+            evaluar();
+        }
         return detotal;
     });
 }
@@ -253,17 +291,17 @@ function CalcularTotalIGV(){
     totsubtotal = detotal / (1 + parseFloat($('#igv').val()));
     /* 1900.00/0.12 = totsubtotal = 1696.43 */
     totalIGV2=  parseFloat($('#igv').val()) * totsubtotal; /* 0.12 * 1696.43 = 203.57  */
-    $("#subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
-    $("#subigv").val(parseFloat(totalIGV2).toFixed(2));
-    $("#subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
-    $("#subt").val(parseFloat(totsubtotal).toFixed(2));
-    $("#tot").html("S/. " + parseFloat(detotal).toFixed(2));
-    $("#tot").val(parseFloat(detotal).toFixed(2));
-    $("#total_sale").val(parseFloat(detotal).toFixed(2));
+    $("#group-factura #subigv").html("S/. "+parseFloat(totalIGV2).toFixed(2));
+    $("#group-factura #subigv").val(parseFloat(totalIGV2).toFixed(2));
+    $("#group-factura #subt").html("S/. "+ parseFloat(totsubtotal).toFixed(2));
+    $("#group-factura #subt").val(parseFloat(totsubtotal).toFixed(2));
+    $("#group-factura #tot").html("S/. " + parseFloat(detotal).toFixed(2));
+    $("#group-factura #tot").val(parseFloat(detotal).toFixed(2));
+    $("#group-factura #total_sale").val(parseFloat(detotal).toFixed(2));
 }
 
 
-function editar(id){
+function editar(iddoc,id){
     $('#editar_prod-'+id).hide();
     $('#aceptar_prod-'+id).show();
     $('#cant-'+id).removeAttr('disabled');
@@ -350,4 +388,24 @@ function ObtenerNroDias(fecha_inicio,fecha_fin){
     var diff = fechaFin - fechaInicio;
     var dif = diff/(1000*60*60*24);
     return dif;
+}
+
+function LimpiarFactura(){
+    $('#group-factura tbody').html("");
+    $("#group-factura #total_sale").val("");
+    $("#group-factura #tot").html("");
+    $("#group-factura #tot").val("");
+    $("#group-factura #subt").html("");
+    $("#group-factura #subt").val("");
+    $('#group-factura #subigv').html("");
+    $("#group-factura #subigv").val("");
+    detotal = 0.00;
+}
+
+function LimpiarBoleta(){
+    $('#group-boleta tbody').html("");
+    $("#group-boleta #total_sale").val("");
+    $("#group-boleta #tot").html("");
+    $("#group-boleta #tot").val("");
+    detotal = 0.00;
 }

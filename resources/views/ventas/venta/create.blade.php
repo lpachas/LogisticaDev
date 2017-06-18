@@ -12,6 +12,57 @@
                     <div class="x_content">
                         <form>
                          <input type="hidden" id="id_usuario" value="{{ Auth::user()->id }}">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <input type="hidden" id="id-0" value="20">
+                                                        <input type="hidden" id="id-1" value="30">
+                                                        <label>Tipo de Documento:</label>
+                                                        <select id="id_documento" name="id_documento" class="form-control selectpicker" data-live-search="true">
+                                                            <option value="">--Seleccione un documento--</option>
+                                                            @foreach($documentos as $doc)
+                                                                <option value="{{$doc->ID_Tipo_Documento}}_{{$doc->Serie}}_{{$doc->Numero}}">{{$doc->Descripcion_Doc}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Serie:</label>
+                                                        <input type="text" id="serie" class="form-control" placeholder="Serie de Documento">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Número:</label>
+                                                        <input type="text" id="numero" class="form-control" placeholder="Número de Documento">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-body">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Forma de Pago:</label>
+                                                    <select id="id_forma_pago" name="id_forma_pago" class="form-control selectpicker" data-live-search="true">
+                                                        <option value="">--Seleccione una forma--</option>
+                                                        <option value="1">Forma 1</option>
+                                                        <option value="2">Forma 2</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                          <div class="row">
                              <div class="col-md-6">
                                  <div class="panel panel-primary">
@@ -56,63 +107,13 @@
                                              <div class="col-md-6">
                                                  <div class="form-group">
                                                      <label>Fecha:</label>
+                                                     <input type="text" class="form-control" id="fecha_venta">
                                                      <!--<div class="input-group date" id="fecha">
                                                          <div class="input-group-addon">
                                                              <i class="fa fa-calendar"></i>
                                                          </div>
                                                          <input type="text" class="form-control pull-right" id="fecha_venta" name="fecha_venta">
                                                      </div>-->
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="row">
-                             <div class="col-md-4">
-                               <div class="panel panel-primary">
-                                   <div class="panel-body">
-                                       <div class="col-md-12">
-                                           <div class="form-group">
-                                               <label>Forma de Pago:</label>
-                                               <select id="id_forma_pago" name="id_forma_pago" class="form-control selectpicker" data-live-search="true">
-                                                   <option value="">--Seleccione una forma--</option>
-                                                   <option value="1">Forma 1</option>
-                                                   <option value="2">Forma 2</option>
-                                               </select>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                             </div>
-                             <div class="col-md-8">
-                                 <div class="panel panel-primary">
-                                     <div class="panel-body">
-                                         <div class="row">
-                                             <div class="col-md-5">
-                                                 <div class="form-group">
-                                                     <input type="hidden" id="id-0" value="20">
-                                                     <input type="hidden" id="id-1" value="30">
-                                                     <label>Tipo de Documento:</label>
-                                                     <select id="id_documento" name="id_documento" class="form-control selectpicker" data-live-search="true">
-                                                         <option value="">--Seleccione un documento--</option>
-                                                         @foreach($documentos as $doc)
-                                                             <option value="{{$doc->ID_Tipo_Documento}}_{{$doc->Serie}}_{{$doc->Numero}}">{{$doc->Descripcion_Doc}}</option>
-                                                         @endforeach
-                                                     </select>
-                                                 </div>
-                                             </div>
-                                             <div class="col-md-3">
-                                                 <div class="form-group">
-                                                     <label>Serie:</label>
-                                                     <input type="text" id="serie" class="form-control" placeholder="Serie de Documento">
-                                                 </div>
-                                             </div>
-                                             <div class="col-md-4">
-                                                 <div class="form-group">
-                                                     <label>Número:</label>
-                                                     <input type="text" id="numero" class="form-control" placeholder="Número de Documento">
                                                  </div>
                                              </div>
                                          </div>
@@ -190,34 +191,62 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+                                <div id="group-factura" style="display: none;">
+                                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+                                        <thead style="background-color: #A9D0F5">
+                                        <tr>
+                                            <th width="15%">Opciones</th>
+                                            <th width="45%">Artículo</th>
+                                            <th width="10%">Cantidad</th>
+                                            <th width="10%">Precio Venta</th>
+                                            <th width="10%">Descuento</th>
+                                            <th width="10%">Subtotal</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th width="15%" rowspan="3"></th>
+                                            <th width="45%" class="text-right" rowspan="3"></th>
+                                            <th width="10%" class="text-center" rowspan="3"></th>
+                                            <th width="10%" class="text-center" rowspan="3">
+                                                <input type="checkbox" id="check"><input type="text" id="igv" value="0.18" class="form-control" disabled>
+                                            </th>
+                                            <th width="10%">Subtotal:</th>
+                                            <th width="10%" class="text-right"><h5 id="subt">S/. 0.00</h5></th>
+                                        </tr>
+                                        <tr>
+                                            <th width="10%">Subtotal IGV 18%:</th>
+                                            <th width="10%" class="text-right"><h5 id="subigv">S/. 0.00</h5></th>
+                                        </tr>
+                                        <tr>
+                                            <th width="10%">Total:</th>
+                                            <th width="10%" class="text-right"><h5 id="tot">S/. 0.00</h5><input type="hidden" id="total_sale"></th>
+                                        </tr>
+                                        </tfoot>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="group-boleta" style="display: none;">
+                                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                                     <thead style="background-color: #A9D0F5">
-                                      <tr>
+                                    <tr>
                                         <th width="15%">Opciones</th>
                                         <th width="45%">Artículo</th>
                                         <th width="10%">Cantidad</th>
                                         <th width="10%">Precio Venta</th>
                                         <th width="10%">Descuento</th>
                                         <th width="10%">Subtotal</th>
-                                      </tr>
+                                    </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th width="15%" rowspan="3"></th>
-                                        <th width="45%" class="text-right" rowspan="3"></th>
-                                        <th width="10%" class="text-center" rowspan="3"></th>
-                                        <th width="10%" class="text-center" rowspan="3">
-                                            <input type="checkbox" id="check"><input type="text" id="igv" value="0.18" class="form-control" disabled>
-                                        </th>
-                                        <th width="10%">Subtotal:</th>
-                                        <th width="10%" class="text-right"><h5 id="subt">S/. 0.00</h5></th>
-                                    </tr>
-                                    <tr>
-                                        <th width="10%">Subtotal IGV 18%:</th>
-                                        <th width="10%" class="text-right"><h5 id="subigv">S/. 0.00</h5></th>
-                                    </tr>
-                                    <tr>
-                                        <th width="10%">Total:</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th width="15%">Total:</th>
                                         <th width="10%" class="text-right"><h5 id="tot">S/. 0.00</h5><input type="hidden" id="total_sale"></th>
                                     </tr>
                                     </tfoot>
@@ -225,6 +254,7 @@
 
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right" id="guardar">
                                 <div class="form-group">
@@ -243,7 +273,6 @@
 @push('scripts')
 <script src="{{asset('js/ventas/ventas.js') }}"></script>
 <script src="{{asset('js/sweetalert.min.js')}}"></script>
-
 <script type="text/javascript">
     $('#id_producto').autocomplete({
        source:'{!! URL::route('autocomplete') !!}',
@@ -375,7 +404,8 @@
                     showLoaderOnConfirm: true,
                 },
                 function(){
-                    $.ajax({
+                console.log(datos);
+                    /*$.ajax({
                         url: route,
                         headers: {'X-CSRF-TOKEN':token},
                         type:'post' ,
@@ -399,7 +429,7 @@
                         error:function(data){
                             console.log(data);
                         }
-                    });
+                    });*/
                 });
         }
     });
