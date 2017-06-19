@@ -1,14 +1,18 @@
 $(document).ready(function(){
     CheckIGV();
+    $('#id_documento').change(ReiniciarClicks);
     $("#btn_add").click(function(){
         agregar();
         AumentarClicks();
     });
     FechaxTipo("");
-    $('#id_tipo_venta').change(function(e) {
+    $('#id_tipo_venta').change(function() {
         var id = $('#id_tipo_venta').val();
         FechaxTipo(id);
-    });
+    }).change();
+
+
+
     DetallesDocumentoDisabled();
     $.datepicker.regional['es'] = {
         closeText: 'Cerrar',
@@ -30,9 +34,9 @@ $(document).ready(function(){
     $.datepicker.setDefaults($.datepicker.regional['es']);
 });
 function FechaxTipo(id){
-    var date = new Date();
-    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     if(id==1 || id==""){
+        var date = new Date();
+        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
         $('#fecha_venta').attr('disabled', 'disabled');
         $('#fecha_venta').datepicker({
             startDate: today,
@@ -45,9 +49,6 @@ function FechaxTipo(id){
         $('#fecha_venta').datepicker('setDate', today);
     }else{
         $('#fecha_venta').removeAttr('disabled');
-        $('#fecha_venta').datepicker(
-            "option", "showAnim", $( this ).val()
-        );
     }
 }
 
@@ -107,10 +108,10 @@ function cargarDatosDoc()
         var id2=datosTipoDoc[0];
         if (id2==4){
             $('#group-factura').show();
-            $('#group-boleta').show();
+            $('#group-boleta').hide();
             LimpiarBoleta();
         }else if(id2==1) {
-            $('#group-factura').show();
+            $('#group-factura').hide();
             $('#group-boleta').show();
             LimpiarFactura();
         }
@@ -218,7 +219,6 @@ function agregar(){
             $('#group-factura #subigv').html("S/. "+parseFloat(totalIGV2).toFixed(2));
             $("#group-factura #subigv").val(parseFloat(totalIGV2).toFixed(2));
             return detotal;
-            console.log(detotal);
         }
         if(iddoc==1){
             subtotalbol[cont] = parseFloat(parseInt(cant) * pventa - desc).toFixed(2);
@@ -236,7 +236,6 @@ function agregar(){
             $("#group-boleta #tot").html("S/. "+parseFloat(detotal2).toFixed(2));
             $("#group-boleta #tot").val(parseFloat(detotal2).toFixed(2));
             return detotal2;
-            console.log(detotal2);
         }
 
     }else{
@@ -266,6 +265,7 @@ function limpiar(){
 
 function eliminar(iddoc,id){
     $.alertable.confirm("¿Está seguro de elminar este producto de la lista?").then(function() {
+        $('#id_documento').change(ReiniciarClicks);
         ReducirClicks();
         if(iddoc==4){
             total = parseFloat(detotal) - parseFloat(subtotal[id]);
@@ -307,11 +307,11 @@ function evaluar(){
 
 function CheckIGV(){
     $(function() {
-        $('#check').click(function() {
+        $('#group-factura check').click(function() {
             if ($(this).is(':checked')) {
-                $('#igv').removeAttr('disabled');
+                $('#group-factura #igv').removeAttr('disabled');
             }else {
-                $('#igv').attr('disabled', 'disabled');
+                $('#group-factura #igv').attr('disabled', 'disabled');
             }
         });
     });
@@ -408,6 +408,11 @@ function AumentarClicks(){
 
 function ReducirClicks(){
     clicks=clicks-1
+    return clicks;
+}
+
+function ReiniciarClicks(){
+    clicks=0;
     return clicks;
 }
 

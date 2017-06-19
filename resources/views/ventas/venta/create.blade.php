@@ -353,10 +353,20 @@
         var numero = $('#numero').val();
         var idforma = $('#id_forma_pago').val();
         var idtipoventa = $('#id_tipo_venta').val();
-        var igv = $('#igv').val();
-        var subtotal = $('#subt').val();
-        var subigv = $('#subigv').val();
-        var total=$('#tot').val();
+
+        if(idtipodoc==4){
+            var igv = $('#group-factura #igv').val();
+            var subtotal = $('#group-factura #subt').val();
+            var subigv = $('#group-factura #subigv').val();
+            var total=$('#group-factura #tot').val();
+        }
+
+        if(idtipodoc==1){
+            var igv = 0.00;
+            var subtotal = 0.00;
+            var subigv=0.00;
+            var total=$('#group-boleta #tot').val();
+        }
         ObtenerFechaActual();
         var fecha_actual = ObtenerFechaActual();
         if(idtipoventa==1){
@@ -370,12 +380,11 @@
         var arrayDetalles = new Array();
         for (var x = 0; x <clicks; x++){
             var detalles = new Object();
-            detalles.ID_Producto = $("#idprod-"+x).val();
-            detalles.Cantidad = $("#cant-"+x).val() ;
-            detalles.Precio = $("#pventa-"+x).val();
-            detalles.Descuento = $("#desc-"+x).val();
-            detalles.Subtotal = $("#subtotal-"+x).val() ;
-
+            detalles.ID_Producto = $("#idprod-"+idtipodoc+"-"+x).val();
+            detalles.Cantidad = $("#cant-"+idtipodoc+"-"+x).val() ;
+            detalles.Precio = $("#pventa-"+idtipodoc+"-"+x).val();
+            detalles.Descuento = $("#desc-"+idtipodoc+"-"+x).val();
+            detalles.Subtotal = $("#subtotal-"+idtipodoc+"-"+x).val() ;
             arrayDetalles.push(detalles);
         }
 
@@ -404,8 +413,7 @@
                     showLoaderOnConfirm: true,
                 },
                 function(){
-                console.log(datos);
-                    /*$.ajax({
+                    $.ajax({
                         url: route,
                         headers: {'X-CSRF-TOKEN':token},
                         type:'post' ,
@@ -429,7 +437,7 @@
                         error:function(data){
                             console.log(data);
                         }
-                    });*/
+                    });
                 });
         }
     });
