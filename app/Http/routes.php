@@ -33,6 +33,7 @@ Route::post('login/CargarPerfiles','LoginController@CargarPerfiles');
 Route::group(['prefix' => 'ventas'],function(){
     Route::resource('venta','VentaController');
     Route::resource('cliente','ClienteController');
+    Route::resource('credito','CreditoController');
 });
 
 Route::post('ventas/venta/create/ByProducto/{id?}', 'VentaController@ByProducto');
@@ -73,6 +74,10 @@ Route::get('usuario/getusuariosinfosearch','UsuarioController@getusuariosinfosea
 Route::get('cliente/getclientesInfo','ClienteController@get_cliente_info');
 Route::get('listaclientes/{page?}','ClienteController@listaclientes');
 Route::get('cliente/getclientesinfosearch','ClienteController@getclientesinfosearch');
+
+Route::get('credito/getcreditosInfo','CreditoController@get_credito_info');
+Route::get('listacreditos/{page?}','CreditoController@listacreditos');
+Route::get('credito/getcreditosinfosearch','CreditoController@getcreditosinfosearch');
 
 Route::get('ventas/venta/create/autocomplete',array('as'=>'autocomplete','uses'=>'VentaController@autocomplete'));
 

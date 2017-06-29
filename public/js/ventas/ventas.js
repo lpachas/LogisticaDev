@@ -40,13 +40,12 @@ function FechaxTipo(id){
         $('#fecha_venta').attr('disabled', 'disabled');
         $('#fecha_venta').datepicker({
             startDate: today,
-            format: "yyyy-mm-dd",
+            Format: "dd-mm-yyyy",
             language: "es",
             orientation: "bottom auto",
             autoclose:"true",
             todayHighlight: true
         });
-        $('#fecha_venta').datepicker('setDate', today);
     }else{
         $('#fecha_venta').removeAttr('disabled');
     }
@@ -192,6 +191,10 @@ function agregar(){
     var pventa = $("#pventa").val();
     var datosTipoDoc = document.getElementById('id_documento').value.split('_');
     var iddoc = datosTipoDoc[0];
+    var fecha_actual='19/06/2017';
+    var fechacredito=$('#fecha_venta').val();
+    var nrodias = ObtenerNroDias(fecha_actual,fechacredito);
+    console.log(nrodias);
 
     if(idprod !="" && nomprod != "" && cant != "" && desc != "" && pventa != "" && stock != "")
     {
@@ -210,6 +213,7 @@ function agregar(){
             var fila = '<tr class="selected" id="fila-'+iddoc+'-'+cont+'"><td><input type="hidden" id="stock-'+iddoc+'-'+cont+'" value="'+stock+'"><button type="button" class="btn btn-danger" onclick="eliminar('+iddoc+','+cont+');">X</button><button type="button" id="aceptar_prod-'+iddoc+'-'+cont+'" class="btn btn-primary" onclick="aceptar('+iddoc+','+cont+');" style="display: none;"><i class="fa fa-check"></i></button><button type="button" id="editar_prod-'+iddoc+'-'+cont+'" class="btn btn-warning" onclick="editar('+iddoc+','+cont+');"><i class="fa fa-edit"></i></button></td><td><input type="hidden" id="idprod-'+iddoc+'-'+cont+'" name="idprod[]" value="'+idprod+'">'+nomprod+'</td><td><input type="number" name="cant[]" id="cant-'+iddoc+'-'+cont+'"  value="'+cant+'" disabled></td><td><input type="number" name="pventa[]" id="pventa-'+iddoc+'-'+cont+'" value="'+pventa+'" disabled></td><td><input type="number" name="desc[]" id="desc-'+iddoc+'-'+cont+'" value="'+desc+'" disabled></td><td><input type="text" id="subtotal-'+iddoc+'-'+cont+'" value="'+subtotal[cont]+'" disabled></td></tr>';
             cont++;
             limpiar();
+
             $("#group-factura #total_sale").val(parseFloat(detotal).toFixed(2));
             $("#group-factura #detalles").append(fila);
             $("#group-factura #tot").html("S/. "+parseFloat(detotal).toFixed(2));
@@ -434,6 +438,7 @@ function ObtenerFechaActual(){
 function ObtenerNroDias(fecha_inicio,fecha_fin){
     var fechaInicio = new Date(fecha_inicio).getTime();
     var fechaFin    = new Date(fecha_fin).getTime();
+    console.log(fecha_inicio+'-'+fecha_fin);
     var diff = fechaFin - fechaInicio;
     var dif = diff/(1000*60*60*24);
     return dif;

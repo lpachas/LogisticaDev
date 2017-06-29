@@ -85,7 +85,7 @@
                                 <ul class="nav child_menu">
                                     <li><a href="{{url('ventas/venta')}}">Ventas</a></li>
                                     <li><a href="{{url('ventas/cliente')}}">Clientes</a></li>
-
+                                    <li><a href="{{url('ventas/credito')}}">Créditos</a></li>
                                 </ul>
                             </li>
                         </ul>
