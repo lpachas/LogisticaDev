@@ -7,6 +7,7 @@
                     <div class="x_title">
                         <h2 style="margin-right: 10px;">Realizar Venta</h2>
                         <a href="create" class="btn btn-primary"><i class="fa fa-plus"></i> Nueva Venta</a>
+                        <button class="btn btn-primary" id="btn_prueba"><i class="fa fa-plus"></i> Prueba</button>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -343,6 +344,8 @@
             $('#reg_cliente').modal('toggle');
         }, 3500);
     }
+
+
     $('#btn_guardarventa').on('click',function(e){
         e.preventDefault();
         var idclient = $('#id_cliente').val();

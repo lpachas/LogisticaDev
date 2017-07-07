@@ -16,7 +16,7 @@
             <tr class="id{{$credito->ID_Doc_Venta}}">
                 <td width="25%" class="text-left">{{$credito->Cliente}}</td>
                 <td width="10%" class="text-left">{{$credito->Usuario}}</td>
-                <td width="18%" class="text-left">{{$credito->Documento}}: "{{$credito->Serie}}"-"{{$credito->Numero}}"</td>
+                <td width="18%" class="text-left">{{$credito->Documento}}: "{{$credito->Serie}}-{{$credito->Numero}}"</td>
                 <td width="10%" class="text-left">{{$credito->Fecha}}</td>
                 <td width="12%" class="text-left">{{$credito->FechaCredito}}</td>
                 <td width="10%" class="text-center">

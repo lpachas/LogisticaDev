@@ -23,7 +23,8 @@ class Venta extends Model
         'IGV',
         'Subtotal',
         'SubIGV',
-        'Total'
+        'Total',
+        'Detalle_Total'
     ];
 
 }
