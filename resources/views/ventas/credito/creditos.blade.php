@@ -39,6 +39,7 @@
             </div>
         </div>
     </div>
+    @include('ventas.credito.modal')
 @endsection
 @push('scripts')
 <script>
@@ -82,6 +83,34 @@
             data:{'search':search}
         }).done(function(data){
             $("#detalle_creditos").html(data);
+        });
+    }
+
+    var PagarCredito = function(id) {
+        var route = "{{url('ventas/credito')}}/" + id + "/Cargarcredito";
+        $.get(route, function (data) {
+            console.log(data);
+            $('#FormPagarCredito')[0].reset();
+            $('#id_venta').val(data[0].ID_Doc_Venta);
+            $('#nombre_cliente').val(data[0].Cliente);
+            var documento = data[0].Documento+": "+data[0].Serie+"-"+data[0].Numero;
+            $('#documento').val(documento);
+            $('#fecha_venta').val(data[0].Fecha);
+            $('#fecha_credito').val(data[0].FechaCredito);
+            $('#dias').val(data[0].Dias);
+            $('#total').val(data[0].Total);
+            $('#a_pagar').change(CalcularSaldo);
+            function CalcularSaldo(){
+                var total = parseInt($('#total').val());
+                var pago = parseInt($('#a_pagar').val());
+                var saldo = total-pago;
+                $('#saldo').val(saldo);
+            }
+            $('#pagar_credito').modal({
+                show:true,
+                backdrop:'static'
+            });
+            return false;
         });
     }
 

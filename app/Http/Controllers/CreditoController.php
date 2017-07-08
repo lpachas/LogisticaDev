@@ -43,7 +43,7 @@ class CreditoController extends Controller
             ->join('t_cliente as c','v.ID_Cliente','=','c.ID_Cliente')
             ->join('users as u','v.ID_Usuario','=','u.id')
             ->join('t_tipo_documento as d','v.ID_Tipo_Documento','=','d.ID_Tipo_Documento')
-            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','d.Serie','d.Numero','v.FechaVenta_Actual as Fecha','v.FechaVenta_Credito as FechaCredito','v.Nro_Dias as Dias')
+            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','d.Serie','d.Numero','v.FechaVenta_Actual as Fecha','v.FechaVenta_Credito as FechaCredito','v.Nro_Dias as Dias','v.Total')
             ->where('v.Numero','LIKE','%'.$search.'%')
             ->where('v.FechaVenta_Credito','<>','0000-00-00')
             ->orderBy('v.ID_Doc_Venta','DESC')
@@ -56,6 +56,22 @@ class CreditoController extends Controller
         {
             $creditos=$this->listacreditos($request['search']);
             return view('ventas.credito.listacreditos',compact('creditos'))->render();
+        }
+    }
+
+    public function Cargarcredito($id)
+    {
+        $credito=DB::table('t_doc_venta as v')
+            ->join('t_cliente as c','v.ID_Cliente','=','c.ID_Cliente')
+            ->join('users as u','v.ID_Usuario','=','u.id')
+            ->join('t_tipo_documento as d','v.ID_Tipo_Documento','=','d.ID_Tipo_Documento')
+            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','d.Serie','d.Numero','v.FechaVenta_Actual as Fecha','v.FechaVenta_Credito as FechaCredito','v.Nro_Dias as Dias','v.Total')
+            ->where('v.ID_Doc_Venta','=',$id)
+            ->get();
+
+        if ($credito)
+        {
+            return response()->json($credito);
         }
     }
 }

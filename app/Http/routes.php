@@ -90,6 +90,8 @@ Route::get('ventas/venta/showpdf/{id?}','VentaController@showpdf');
 
 Route::get ('github', 'PdfController@github');
 
+Route::get('ventas/credito/{id?}/Cargarcredito','CreditoController@Cargarcredito');
+
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
