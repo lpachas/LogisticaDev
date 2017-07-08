@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use SISTEMA_LOGISTICA\Http\Requests;
 use DB;
 use Carbon\Carbon;
+use SISTEMA_LOGISTICA\Credito;
+use SISTEMA_LOGISTICA\Http\Requests\CreditoFormRequest;
 use Input;
 use PDF;
 class CreditoController extends Controller
@@ -72,6 +74,23 @@ class CreditoController extends Controller
         if ($credito)
         {
             return response()->json($credito);
+        }
+    }
+
+    public function store(CreditoFormRequest $request)
+    {
+        $credito = new Credito;
+        $credito->ID_Doc_Venta = $request->get('ID_Doc_Venta');
+        $credito->ID_Usuario = $request->get('ID_Usuario');
+        $credito->dTotal = $request->get('dTotal');
+        $credito->dPago = $request->get('dPago');
+        $credito->dSaldo = $request->get('dSaldo');
+        $credito->save();
+
+        if ($credito){
+            return response()->json(['success'=>'hecho']);
+        }else{
+            return response()->json(['success'=>'error']);
         }
     }
 }

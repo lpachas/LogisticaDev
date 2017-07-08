@@ -42,6 +42,7 @@
     @include('ventas.credito.modal')
 @endsection
 @push('scripts')
+<script src="{{asset('js/sweetalert.min.js')}}"></script>
 <script>
     $(document).ready(function(){
         IniciarCredito();
@@ -89,9 +90,9 @@
     var PagarCredito = function(id) {
         var route = "{{url('ventas/credito')}}/" + id + "/Cargarcredito";
         $.get(route, function (data) {
-            console.log(data);
             $('#FormPagarCredito')[0].reset();
             $('#id_venta').val(data[0].ID_Doc_Venta);
+            $('#id_usuario').val(data[0].ID_Usuario)
             $('#nombre_cliente').val(data[0].Cliente);
             var documento = data[0].Documento+": "+data[0].Serie+"-"+data[0].Numero;
             $('#documento').val(documento);
@@ -101,10 +102,19 @@
             $('#total').val(data[0].Total);
             $('#a_pagar').change(CalcularSaldo);
             function CalcularSaldo(){
-                var total = parseInt($('#total').val());
-                var pago = parseInt($('#a_pagar').val());
-                var saldo = total-pago;
-                $('#saldo').val(saldo);
+                var total = parseFloat($('#total').val());
+                var pago = parseFloat($('#a_pagar').val());
+                if(total < pago){
+                    swal({
+                        title: "Error!",
+                        text: "El monto a pagar debe ser menor a la deuda",
+                        type: "error",
+                        confirmButtonText: "OK"
+                    });
+                }else{
+                    var saldo = total-pago;
+                    $('#saldo').val(saldo);
+                }
             }
             $('#pagar_credito').modal({
                 show:true,
@@ -113,6 +123,31 @@
             return false;
         });
     }
+
+    $('#btnpagar_credito').on('click',function(e){
+        e.preventDefault();
+        var iddoc=$('#id_venta').val();
+        var iduser = $('#id_usuario').val();
+        var total = parseFloat($('#total').val());
+        var pago = parseFloat($('#a_pagar').val());
+        var saldo = parseFloat($('#saldo').val());
+
+        var route = "{{route('ventas.credito.store')}}";
+        var pago_credito = {ID_Doc_Venta:iddoc,ID_Usuario:iduser,dTotal:total,dPago:pago,dSaldo:saldo};
+        var token = $("#token").val();
+        $.ajax({
+            url: route,
+            headers: {'X-CSRF-TOKEN':token},
+            type:'post' ,
+            datatype: 'json',
+            data: pago_credito,
+            success:function(data)
+            {
+                console.log(data.success);
+            },
+        });
+
+    });
 
 </script>
 @endpush
