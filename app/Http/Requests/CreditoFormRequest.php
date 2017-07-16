@@ -24,7 +24,7 @@ class CreditoFormRequest extends Request
     public function rules()
     {
         return [
-            'ID_Doc_Venta'=>'required',
+            'ID_Credito'=>'required',
             'ID_Usuario'=>'required',
             'dTotal'=>'required',
             'dPago'=>'required',

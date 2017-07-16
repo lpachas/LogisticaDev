@@ -12,7 +12,7 @@
                         <div class="col-md-7">
                             <div class="form-group">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
-                                <input type="hidden" id="id_venta">
+                                <input type="hidden" id="id_credito">
                                 <input type="hidden" id="id_usuario">
                                 <label for="cliente">Cliente:</label>
                                 <input type="text" id="nombre_cliente" class="form-control">

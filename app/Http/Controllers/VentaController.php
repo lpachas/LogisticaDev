@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use SISTEMA_LOGISTICA\Http\Requests;
 use SISTEMA_LOGISTICA\Producto;
 use SISTEMA_LOGISTICA\Venta;
+use SISTEMA_LOGISTICA\CredVenta;
 use SISTEMA_LOGISTICA\Detalle_Venta;
 use SISTEMA_LOGISTICA\Tipo_Documento;
 use SISTEMA_LOGISTICA\Http\Controllers\Controller;
@@ -114,6 +115,25 @@ class VentaController extends Controller
         $venta->Total = $request->get('Total');
         $venta->Detalle_Total = $this->convertir($request->get('Total'));
         $venta->save();
+
+        $credventa = new CredVenta;
+        $credventa->ID_Cliente = $request->get('ID_Cliente');
+        $credventa->ID_Usuario = $request->get('ID_Usuario');
+        $credventa->ID_Tipo_Documento = $request->get('ID_Tipo_Documento');
+        $credventa->Serie = $request->get('Serie');
+        $credventa->Numero = $request->get('Numero');
+        $credventa->FechaVenta_Actual= $request->get('FechaVenta_Actual');
+        $credventa->ID_Forma_Pago=$request->get('ID_Forma_Pago');
+        $credventa->Estado='Venta';
+        $credventa->FechaVenta_Credito = $request->get('FechaVenta_Credito');
+        $credventa->Nro_Dias=$request->get('Nro_Dias');
+        $credventa->IGV = $request->get('IGV');
+        $credventa->Subtotal = $request->get('Subtotal');
+        $credventa->SubIGV = $request->get('SubIGV');
+        $credventa->Total = $request->get('Total');
+        $credventa->Detalle_Total = $this->convertir($request->get('Total'));
+        $credventa->Saldo_Credito = $this->get('Total');
+        $credventa->save();
 
         /*Cantidad de Productos Vendidos*/
         $cantidad = count($request->get('Detalles'));

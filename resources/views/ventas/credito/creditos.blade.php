@@ -91,7 +91,7 @@
         var route = "{{url('ventas/credito')}}/" + id + "/Cargarcredito";
         $.get(route, function (data) {
             $('#FormPagarCredito')[0].reset();
-            $('#id_venta').val(data[0].ID_Doc_Venta);
+            $('#id_credito').val(data[0].ID_Credito);
             $('#id_usuario').val(data[0].ID_Usuario)
             $('#nombre_cliente').val(data[0].Cliente);
             var documento = data[0].Documento+": "+data[0].Serie+"-"+data[0].Numero;
@@ -99,7 +99,7 @@
             $('#fecha_venta').val(data[0].Fecha);
             $('#fecha_credito').val(data[0].FechaCredito);
             $('#dias').val(data[0].Dias);
-            $('#total').val(data[0].Total);
+            $('#total').val(data[0].Saldo_Credito);
             $('#a_pagar').change(CalcularSaldo);
             function CalcularSaldo(){
                 var total = parseFloat($('#total').val());
@@ -126,14 +126,14 @@
 
     $('#btnpagar_credito').on('click',function(e){
         e.preventDefault();
-        var iddoc=$('#id_venta').val();
+        var iddoc=$('#id_credito').val();
         var iduser = $('#id_usuario').val();
         var total = parseFloat($('#total').val());
         var pago = parseFloat($('#a_pagar').val());
         var saldo = parseFloat($('#saldo').val());
 
         var route = "{{route('ventas.credito.store')}}";
-        var pago_credito = {ID_Doc_Venta:iddoc,ID_Usuario:iduser,dTotal:total,dPago:pago,dSaldo:saldo};
+        var pago_credito = {ID_Credito:iddoc,ID_Usuario:iduser,dTotal:total,dPago:pago,dSaldo:saldo};
         var token = $("#token").val();
         $.ajax({
             url: route,
@@ -143,11 +143,15 @@
             data: pago_credito,
             success:function(data)
             {
-                console.log(data.success);
+                if(data.success == 'hecho') {
+                    $('#mensaje_pago').addClass('exito').html("El Pago se realizó con éxito").show(300).delay(3000).hide(300);
+                    IniciarCredito();
+                }
+                else{
+                    $('#mensaje_pago').addClass('exito').html("Error. Comuníquese con el Administrador").show(300).delay(3000).hide(300);
+                }
             },
         });
-
     });
-
 </script>
 @endpush

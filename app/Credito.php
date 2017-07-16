@@ -10,7 +10,8 @@ class Credito extends Model
     protected $primaryKey='ID_Pago';
 
     protected $fillable=[
-        'ID_Doc_Venta',
+        'ID_Credito',
+        'ID_Usuario',
         'dTotal',
         'dPago',
         'dSaldo',
