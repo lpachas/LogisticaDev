@@ -5,7 +5,6 @@
         <div class="title_left">
             <a class="btn alert-success" href="venta/create" style="margin-top: 10px;"><i class="fa fa-plus"></i> Nueva Venta</a>
         </div>
-
         <div class="title_right">
             <div class="col-md-6 col-sm-6 col-xs-12 form-group pull-right top_search">
 
@@ -24,6 +23,34 @@
         </div>
     </div>
     <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Filtrar por:</label>
+                    <select class="form-control" id="select_tipo">
+                        <option value="0">Seleccionar Tipo</option>
+                        <option value="1">Factura</option>
+                        <option value="2">Boleta</option>
+                        <option value="3">Option three</option>
+                        <option value="4">Option four</option>
+                        <option value="5">Option five</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>Desde:</label>
+                <input type="text" class="form-control" id="fecha_inicio">
+            </div>
+            <div class="col-md-3">
+                <label>Hasta:</label>
+                <input type="text" class="form-control" id="fecha_fin">
+            </div>
+            <div class="col-md-3">
+                <br>
+                <button id="btn_buscar" style="margin-top:4.3px;" class="btn alert-success"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
+            </div>
+        </div>
+    <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -41,10 +68,12 @@
     </div>
 @endsection
 @push('scripts')
+<script src="{{asset('js/ventas/index.js') }}"></script>
 <script>
     $(document).ready(function(){
         IniciarVenta();
     });
+
 
     $("#frmsearch").on("submit",function(e){
         e.preventDefault();
@@ -84,6 +113,27 @@
             $("#detalle_ventas").html(data);
         });
     }
+
+    function listarventas(tipo,ini,fin){
+        $.ajax({
+            type:'get',
+            url:"{!!url('venta/ListaVentas')!!}",
+            data: {tipo:tipo,ini:ini,fin:fin},
+            success: function(data)
+            {
+                console.log(data);
+            }
+        });
+    }
+
+
+    $('#btn_buscar').on('click',function(e){
+        e.preventDefault();
+        var tipo=$('#select_tipo').val();
+        var f_ini=$('#fecha_inicio').val();
+        var f_fin=$('#fecha_fin').val();
+        listarventas(tipo,f_ini,f_fin);
+    });
 
 </script>
 @endpush

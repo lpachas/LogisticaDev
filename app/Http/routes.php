@@ -95,3 +95,5 @@ Route::get('ventas/credito/{id?}/Cargarcredito','CreditoController@Cargarcredito
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+///
+Route::get('venta/ListaVentas','VentaController@DatosVentas');

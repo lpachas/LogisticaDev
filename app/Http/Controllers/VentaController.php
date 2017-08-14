@@ -44,13 +44,14 @@ class VentaController extends Controller
         }
     }
 
+
     public function listaventas($search)
     {
         return  $ventas=DB::table('t_doc_venta as v')
             ->join('t_cliente as c','v.ID_Cliente','=','c.ID_Cliente')
             ->join('users as u','v.ID_Usuario','=','u.id')
             ->join('t_tipo_documento as d','v.ID_Tipo_Documento','=','d.ID_Tipo_Documento')
-            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','d.Serie','d.Numero','v.FechaVenta_Actual as Fecha')
+            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','v.Serie','v.Numero','v.FechaVenta_Actual as Fecha')
             ->where('v.Numero','LIKE','%'.$search.'%')
             ->orwhere('v.Serie','LIKE','%'.$search.'%')
             ->orderBy('v.ID_Doc_Venta','DESC')
@@ -64,6 +65,31 @@ class VentaController extends Controller
             $ventas=$this->listaventas($request['search']);
             return view('ventas.venta.listaventas',compact('ventas'))->render();
         }
+    }
+
+    public function BuscarDoc(BuscarFormRequest $request)
+    {
+        if($request->ajax())
+        {
+            $tipo = $request->tipo;
+            $ini = $request->ini;
+            $fin = $request->fin;
+            $ventas= DB::select('call Buscar_Doc(?,?,?)',array($tipo,$ini,$fin));
+            dd($ventas);
+        }
+    }
+
+    public function DatosVentas(request $request){
+        $tipo = $request->tipo;
+        $ini = $request->ini;
+        $fin = $request->fin;
+        if ($request->ajax()){
+            $ventas= DB::select('call Buscar_Doc(?,?,?)',array($tipo,$ini,$fin));
+            dd($ventas);
+            return view('ventas.venta.listaventas',compact('ventas'))->render();
+        }
+
+
     }
 
     public function create(){
@@ -239,7 +265,7 @@ class VentaController extends Controller
             ->join('users as u','v.ID_Usuario','=','u.id')
             ->join('t_tipo_documento as d','v.ID_Tipo_Documento','=','d.ID_Tipo_Documento')
             ->join('t_forma_pago as p','v.ID_Forma_Pago','=','p.ID_Forma_Pago')
-            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','d.Serie','d.Numero','v.FechaVenta_Actual as Fecha','p.ID_Forma_Pago','p.Nombre as Forma','v.Estado','v.FechaVenta_Credito as Fecha_Credito','v.Nro_Dias','v.IGV','v.Total')
+            ->select('v.ID_Doc_Venta','c.ID_Cliente','c.Nombre as Cliente','u.id as ID_Usuario','u.name as Usuario','d.ID_Tipo_Documento','d.Descripcion_Doc as Documento','d.Serie','d.Numero','v.FechaVenta_Actual as Fecha','p.ID_Forma_Pago','p.Nombre as Forma','v.Estado','v.FechaVenta_Credito as Fecha_Credito','v.Nro_Dias','v.IGV','v.Total','v.Detalle_Total')
             ->where('v.ID_Doc_Venta','=',$id)
             ->first();
 
